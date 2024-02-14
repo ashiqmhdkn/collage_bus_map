@@ -33,40 +33,65 @@ class _ChecklistState extends State<Checklist> {
   Map<String, List<TextDto>> userJourneyDetails = {};
 
   @override
+  void initState() {
+    super.initState();
+    for (var user in users) {
+      userJourneyStatus[user] = JourneyStatus.atPickup;
+      userJourneyDetails[user] = [TextDto("At Pickup Point", "Starting Point")];
+    }
+  }
 
   // Function to show user journey details
   void _showJourneyDetails(String user) {
-    int _step = 0;
-    showModalBottomSheet<dynamic>(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext bc) {
-          return SizedBox(
-            height: 500,
-            child: Container(
-              child: Stepper(
-                controlsBuilder: (context, controller) {
-                  return const SizedBox.shrink();
-                },
-                type: StepperType.horizontal,
-                steps: const [
-                  Step(
-                    title: SizedBox.shrink(),
-                    content: SizedBox.shrink(),
-                  ),
-                  Step(
-                    title: SizedBox.shrink(),
-                    content: SizedBox.shrink(),
-                  ),
-                  Step(
-                    title: SizedBox.shrink(),
-                    content: SizedBox.shrink(),
-                  ),
-                ],
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListView(
+                shrinkWrap: true,
+                children: userJourneyDetails[user]!
+                    .map((detail) => ListTile(
+                          title: Text("${detail.title} - ${detail.date}"),
+                        ))
+                    .toList(),
               ),
-            ),
-          );
-        });
+              if (userJourneyStatus[user] != JourneyStatus.arrived)
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      switch (userJourneyStatus[user]) {
+                        case JourneyStatus.atPickup:
+                          userJourneyStatus[user] = JourneyStatus.onBus;
+                          userJourneyDetails[user]!.add(TextDto("On Bus", "Now"));
+                          break;
+                        case JourneyStatus.onBus:
+                          userJourneyStatus[user] =
+                              JourneyStatus.nearDestination;
+                          userJourneyDetails[user]!
+                              .add(TextDto("Near Destination", "Now"));
+                          break;
+                        case JourneyStatus.nearDestination:
+                          userJourneyStatus[user] = JourneyStatus.arrived;
+                          userJourneyDetails[user]!
+                              .add(TextDto("Arrived", "Now"));
+                          break;
+                        default:
+                          break;
+                      }
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Next Stage'),
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override

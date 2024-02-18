@@ -77,6 +77,34 @@ class Settings extends StatelessWidget {
   }
 
   void _showLogoutDialog(BuildContext context) {
-    // Logout dialog implementation remains unchanged.
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Logout"),
+          content: Text("Are you sure you want to logout?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Clear user session
+                SharedPreferences sp = await SharedPreferences.getInstance();
+                await sp.clear();
+                // Navigate back to the login screen
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => Login(),
+                ));
+              },
+              child: Text("Logout"),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

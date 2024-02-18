@@ -1,3 +1,4 @@
+import 'package:collage_bus_nufa/payment_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -47,6 +48,11 @@ class message extends StatelessWidget {
                     child: Text('Send'),
                   ),
                   onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => payment_message(),
+                      ),
+                    );
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('message deliverd')),
                     );

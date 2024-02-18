@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBrr2Xn5B_i_xMzYNleeBx1LC1xXQwft18',
-    appId: '1:921801174899:android:3f9a5068301af88af8df06',
+    appId: '1:921801174899:android:d431fd08b8eea242f8df06',
     messagingSenderId: '921801174899',
     projectId: 'collage-c56db',
     storageBucket: 'collage-c56db.appspot.com',
@@ -63,19 +63,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBKuZQ6um8mKhUnTHnGts_yhvHN4-NuyQ0',
-    appId: '1:921801174899:ios:9a4cb571ebe02b30f8df06',
+    appId: '1:921801174899:ios:bcb45096005f2c39f8df06',
     messagingSenderId: '921801174899',
     projectId: 'collage-c56db',
     storageBucket: 'collage-c56db.appspot.com',
-    iosBundleId: 'com.example.collageBusNufa',
+    iosClientId: '921801174899-soo1kttq67heqmd6c9vq06q9sfl20n71.apps.googleusercontent.com',
+    iosBundleId: 'com.example.flutterApplication1',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBKuZQ6um8mKhUnTHnGts_yhvHN4-NuyQ0',
-    appId: '1:921801174899:ios:797760b9ce278dc2f8df06',
+    appId: '1:921801174899:ios:d28509ba8997d4d0f8df06',
     messagingSenderId: '921801174899',
     projectId: 'collage-c56db',
     storageBucket: 'collage-c56db.appspot.com',
-    iosBundleId: 'com.example.collageBusNufa.RunnerTests',
+    iosClientId: '921801174899-jd6v60mkc8lhst4mgkesnqud6a18c3kh.apps.googleusercontent.com',
+    iosBundleId: 'com.example.flutterApplication1.RunnerTests',
   );
 }

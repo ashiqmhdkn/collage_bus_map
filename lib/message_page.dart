@@ -1,5 +1,20 @@
 import 'package:flutter/material.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Quick Messages',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MessagePage(),
+    );
+  }
+}
 
 class MessagePage extends StatelessWidget {
   @override
@@ -27,65 +42,50 @@ class MessagePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            for (var person in persons) buildProfileTile(person),
+            for (var person in persons) buildProfileTile(person, context),
           ],
         ),
       ),
     );
   }
 
-  ListTile buildProfileTile(Map<String, String> person) {
+  ListTile buildProfileTile(Map<String, String> person, BuildContext context) {
     return ListTile(
       leading: Icon(Icons.person),
       title: Text(person["name"]!),
       subtitle: Text("Phone: ${person["phone"]}"),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            icon: Icon(Icons.phone),
-            onPressed: () {
-              _makePhoneCall(person["phone"]!);
+      trailing: IconButton(
+        icon: Icon(Icons.message),
+        onPressed: () => _sendSMS(person["phone"]!, context),
+      ),
+    );
+  }
 
-              // Call the person
-              // Implement the call functionality here
-              print("Calling ${person["name"]} : ${person["phone"]}");
-            },
+  Future<void> _sendSMS(String phoneNumber, BuildContext context) async {
+    final Uri launchUri = Uri(
+      scheme: 'sms',
+      path: phoneNumber,
+    );
+    if (await canLaunchUrl(launchUri)) {
+      await launchUrl(launchUri);
+    } else {
+      _showErrorDialog(context);
+    }
+  }
+
+  void _showErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Error'),
+        content: Text('Could not launch messaging app'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('OK'),
+            onPressed: () => Navigator.of(context).pop(),
           ),
-          IconButton(
-              icon: Icon(Icons.message),
-              onPressed: () {
-                _sendSMS(person["phone"]!);
-                // Message the person
-                // Implement the message functionality here
-                print("Messaging ${person["name"]} : ${person["phone"]}");
-              }),
         ],
       ),
     );
   }
-}
-
-Future<void> _makePhoneCall(String phoneNumber) async {
-  final Uri launchUri = Uri(
-    scheme: 'tel',
-    path: phoneNumber,
-  );
-  // if (await canLaunchUrl(launchUri)) {
-    // await launchUrl(launchUri);
-  // } else {
-    // throw 'Could not launch $launchUri';
-  // }
-}
-
-Future<void> _sendSMS(String phoneNumber) async {
-  final Uri launchUri = Uri(
-    scheme: 'sms',
-    path: phoneNumber,
-  );
-  // if (await canLaunchUrl(launchUri)) {
-  //   await launchUrl(launchUri);
-  // } else {
-  //   throw 'Could not launch $launchUri';
-  // }
 }

@@ -50,14 +50,12 @@ class _add_studentState extends State<add_student> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Add Student"),
-
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
               TextField(
-                
                 decoration: InputDecoration(
                   label: Text("Name of Student"),
                   border: OutlineInputBorder(),
@@ -68,25 +66,45 @@ class _add_studentState extends State<add_student> {
               ),
               TextField(
                 decoration: InputDecoration(
-                  label: Text("Register Number"),
+                  label: Text("Admission Number"),
                   border: OutlineInputBorder(),
                 ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  label: Text("Date of birth"),
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.datetime,
               ),
                SizedBox(
                 height: 10,
               ),
-
-              TextField(
-                decoration: InputDecoration(
-                  label: Text("Date OF birth"),
-                  border: OutlineInputBorder(),
-                ),
-                keyboardType:TextInputType.datetime,
-              ),
+              ElevatedButton(
+                    style: ButtonStyle(
+                    padding: MaterialStateProperty.all(
+                      EdgeInsets.only(
+                        left: 150,
+                        right: 150,
+                        top: 10,
+                        bottom: 10,
+                      ),
+                    ),
+                    textStyle: MaterialStateProperty.all(
+                      TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),),
+                    onPressed: () {},
+                    child: Text("Add"),
+              )
             ],
           ),
         ),

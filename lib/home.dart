@@ -17,8 +17,8 @@ class Home extends StatelessWidget {
         body: Column(
           children: [
             Expanded(
-              flex: 11,
-              child: locationmap(),
+              flex: 10,
+              child: LocationMap(),
             ),
             Expanded(
               flex: 1,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'apar.dart'; // Ensure this import points to your actual navigation target.
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   runApp(LoginApp());
@@ -149,6 +150,7 @@ class _LoginState extends State<Login> {
       sp.setString("Pass", _password.text);
       sp.setBool('log', true);
       loginSuccess = true;
+      await _sendUsernameToFirestore(_userId.text); //send username to Firestore
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Invalid username or password"),
@@ -158,6 +160,21 @@ class _LoginState extends State<Login> {
     if (loginSuccess) {
       islogin();
     }
+  }
+
+  Future<void> _sendUsernameToFirestore(String username) async {
+    var usersCollection = FirebaseFirestore.instance.collection('users');
+    // add a new document with an auto-generated ID, or update existing document for the user
+    await usersCollection.doc(username).set(
+        {
+          'username': username,
+          // add any other user-related info here
+          'lastLogin':
+              FieldValue.serverTimestamp(), // Example: Add a server timestamp
+        },
+        SetOptions(
+            merge:
+                true)); // merge with the existing data if user already exists
   }
 
   Future<void> islogin() async {

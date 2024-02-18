@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "921801174899",
+    "project_id": "collage-c56db",
+    "storage_bucket": "collage-c56db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921801174899:android:3f9a5068301af88af8df06",
+        "android_client_info": {
+          "package_name": "com.example.collage_bus_nufa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "921801174899-tbelir9fdgs13mogtsuohi5clekhg45e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrr2Xn5B_i_xMzYNleeBx1LC1xXQwft18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "921801174899-tbelir9fdgs13mogtsuohi5clekhg45e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "921801174899-bttcu7mssebjl6bh1fphbt1a4hed1450.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.collageBusNufa"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921801174899:android:d431fd08b8eea242f8df06",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "921801174899-tbelir9fdgs13mogtsuohi5clekhg45e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrr2Xn5B_i_xMzYNleeBx1LC1xXQwft18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "921801174899-tbelir9fdgs13mogtsuohi5clekhg45e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "921801174899-bttcu7mssebjl6bh1fphbt1a4hed1450.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.collageBusNufa"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

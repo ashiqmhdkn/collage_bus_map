@@ -1,13 +1,24 @@
+import 'package:collage_bus_nufa/controllers/models/serivices.dart';
+import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'feedback_page.dart';
 
 class Settings extends StatelessWidget {
-  const Settings({Key? key});
+  Settings({Key? key});
+  final UserController _user = UserController();
+  late final List<user> users;
+  data() async {
+    // Get all users
+    users = await _user.getUsers();
+    // Do something with the retrieved users, e.g., display in a list
+    print(users);
+  }
 
   @override
   Widget build(BuildContext context) {
+    data();
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -23,12 +34,22 @@ class Settings extends StatelessWidget {
               leading: Icon(Icons.notifications),
               title: Text("Notifications"),
               trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () async {
+                await _user.createUser(
+                  user(
+                    name: 'John Doe',
+                    email: 'john@example.com',
+                    phone: 1234567890,
+                  ),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.feed),
               title: Text("Privacy Policy"),
               trailing: Icon(Icons.arrow_forward_ios),
               onTap: () {
+                print(users[0].name);
                 _showPrivacyPolicyDialog(context);
               },
             ),

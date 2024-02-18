@@ -4,7 +4,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
          <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="YOUR_API_KEY_HERE"/>
+               android:value="AIzaSyBAOUOgTTl35q0g3sKjCsOPDF40Vj3Eay0"/>
 
         <activity
             android:name=".MainActivity"

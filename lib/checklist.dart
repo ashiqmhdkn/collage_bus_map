@@ -10,8 +10,9 @@ enum JourneyStatus { atPickup, onBus, nearDestination, arrived }
 class TextDto {
   final String title;
   final String date;
+  final String locationDetail;
 
-  TextDto(this.title, this.date);
+  TextDto(this.title, this.date, this.locationDetail);
 }
 
 class _ChecklistState extends State<Checklist> {
@@ -37,11 +38,12 @@ class _ChecklistState extends State<Checklist> {
     super.initState();
     for (var user in users) {
       userJourneyStatus[user] = JourneyStatus.atPickup;
-      userJourneyDetails[user] = [TextDto("At Pickup Point", "Starting Point")];
+      userJourneyDetails[user] = [
+        TextDto("At Pickup Point", "Starting Point", "Location: Pickup Point")
+      ];
     }
   }
 
-  // Function to show user journey details
   void _showJourneyDetails(String user) {
     showModalBottomSheet(
       context: context,
@@ -56,6 +58,7 @@ class _ChecklistState extends State<Checklist> {
                 children: userJourneyDetails[user]!
                     .map((detail) => ListTile(
                           title: Text("${detail.title} - ${detail.date}"),
+                          subtitle: Text(detail.locationDetail),
                         ))
                     .toList(),
               ),
@@ -63,25 +66,27 @@ class _ChecklistState extends State<Checklist> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      String locationDetail = "Location Detail Not Available";
+
                       switch (userJourneyStatus[user]) {
                         case JourneyStatus.atPickup:
                           userJourneyStatus[user] = JourneyStatus.onBus;
-                          userJourneyDetails[user]!.add(TextDto("On Bus", "Now"));
+                          locationDetail = "Location: En Route";
                           break;
                         case JourneyStatus.onBus:
                           userJourneyStatus[user] =
                               JourneyStatus.nearDestination;
-                          userJourneyDetails[user]!
-                              .add(TextDto("Near Destination", "Now"));
+                          locationDetail = "Location: Near Destination";
                           break;
                         case JourneyStatus.nearDestination:
                           userJourneyStatus[user] = JourneyStatus.arrived;
-                          userJourneyDetails[user]!
-                              .add(TextDto("Arrived", "Now"));
+                          locationDetail = "Location: Destination";
                           break;
                         default:
                           break;
                       }
+                      userJourneyDetails[user]!
+                          .add(TextDto("Stage Changed", "Now", locationDetail));
                     });
                     Navigator.of(context).pop();
                   },

@@ -1,5 +1,7 @@
+import 'package:collage_bus_nufa/admin.dart';
 import 'package:collage_bus_nufa/checklist.dart';
 import 'package:collage_bus_nufa/payment.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'settings.dart';
 import 'home.dart';
@@ -34,6 +36,10 @@ class _aparState extends State<apar> {
             icon: Icon(Icons.account_circle_sharp),
             label: "Profile",
           ),
+          NavigationDestination(
+            icon: Icon(Icons.admin_panel_settings_outlined),
+            label: "Admin",
+          )
         ],
         selectedIndex: currentPageIndex,
         onDestinationSelected: (int index) {
@@ -48,6 +54,7 @@ class _aparState extends State<apar> {
         Checklist(),
         payment(),
         Settings(),
+        admin(),
       ][currentPageIndex],
     ));
   }

@@ -30,20 +30,7 @@ class Settings extends StatelessWidget {
                 child: Image.asset("assets\images\buspreview.jpg"),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.notifications),
-              title: Text("Notifications"),
-              trailing: Icon(Icons.arrow_forward_ios),
-              onTap: () async {
-                await _user.createUser(
-                  user(
-                    name: 'John Doe',
-                    email: 'john@example.com',
-                    phone: 1234567890,
-                  ),
-                );
-              },
-            ),
+          
             ListTile(
               leading: Icon(Icons.feed),
               title: Text("Privacy Policy"),

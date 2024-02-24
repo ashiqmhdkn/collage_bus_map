@@ -1,7 +1,6 @@
 import 'package:collage_bus_nufa/admin.dart';
 import 'package:collage_bus_nufa/checklist.dart';
 import 'package:collage_bus_nufa/payment.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'settings.dart';
 import 'home.dart';

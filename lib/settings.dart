@@ -1,12 +1,11 @@
-import 'dart:io';
-
-import 'package:collage_bus_nufa/controllers/models/serivices.dart';
+import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'feedback_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -15,20 +14,21 @@ class Settings extends StatefulWidget {
   State<Settings> createState() => _SettingsState();
 }
 
-
 class _SettingsState extends State<Settings> {
-  late  ImagePicker _imagePicker;
-   XFile? _imageFile;
+  late ImagePicker _imagePicker;
+  XFile? _imageFile;
 
   @override
   void initState() {
     super.initState();
     _imagePicker = ImagePicker();
   }
+
   Future<void> _pickImage() async {
-    final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
-    
-   if (pickedFile != null) {
+    final XFile? pickedFile =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
       setState(() {
         _imageFile = pickedFile;
       });
@@ -36,6 +36,7 @@ class _SettingsState extends State<Settings> {
       print('No image selected.');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,25 +51,25 @@ class _SettingsState extends State<Settings> {
             height: 80.0,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-               image: _imageFile != null
-                    ? DecorationImage(
-                        fit: BoxFit.fitHeight,
-                        image: FileImage(File(_imageFile!.path)),
-                      )
-                    : null,
+              image: _imageFile != null
+                  ? DecorationImage(
+                      fit: BoxFit.fitHeight,
+                      image: FileImage(File(_imageFile!.path)),
+                    )
+                  : null,
             ),
-            
             child: _imageFile != null
-                ? IconButton( // Child widget when no image is selected
-                      icon:Icon(Icons.ac_unit_outlined),
-                      onPressed: _pickImage,
-                      )
-      // Child widget when an image is selected
-                : IconButton( // Child widget when no image is selected
-                      icon: Icon(Icons.add_a_photo),
-                      onPressed: _pickImage,
-    ),
-            
+                ? IconButton(
+                    // Child widget when no image is selected
+                    icon: Icon(Icons.ac_unit_outlined),
+                    onPressed: _pickImage,
+                  )
+                // Child widget when an image is selected
+                : IconButton(
+                    // Child widget when no image is selected
+                    icon: Icon(Icons.add_a_photo),
+                    onPressed: _pickImage,
+                  ),
           ),
           ListTile(
             leading: Icon(Icons.notifications),
@@ -121,6 +122,34 @@ class _SettingsState extends State<Settings> {
   }
 
   void _showLogoutDialog(BuildContext context) {
-    // Logout dialog implementation remains unchanged.
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Logout"),
+          content: Text("Are you sure you want to logout?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Clear user session
+                SharedPreferences sp = await SharedPreferences.getInstance();
+                await sp.clear();
+                // Navigate back to the login screen
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => Login(),
+                ));
+              },
+              child: Text("Logout"),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

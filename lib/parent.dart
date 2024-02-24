@@ -1,7 +1,11 @@
-import 'dart:js_util';
+import 'dart:ffi';
+
+import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import './controllers/models/usercontrol.dart';
+import 'controllers/models/user.dart';
 
 class parent extends StatefulWidget {
   parent({super.key});
@@ -10,6 +14,8 @@ class parent extends StatefulWidget {
   State<parent> createState() => parentState();
 }
 
+final UserController userController = Get.put(UserController());
+late Future<List<user>> users = userController.getUsers();
 class parentState extends State<parent> {
   @override
   Widget build(BuildContext context) {
@@ -30,9 +36,29 @@ class parentState extends State<parent> {
             ),
             tooltip: "Add a Parent",
           ),
-          body: ListView(
-            children: [],
-          )),
+          body:  Obx(() {
+          if (userController.isLoading.value) {
+            return CircularProgressIndicator(); // Show a loading indicator while data is being fetched
+          } else if (userController.hasError.value) {
+            return Text('Error: ${userController.errorMessage.value}');
+          } else {
+            // If data is available, display it
+            late Future<List<user>> users = userController.getUsers();
+            if (users != null && users.isNotEmpty) {
+              return ListView.builder(
+                itemCount: users.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(users[index].name), // Assuming User class has a 'name' property
+                    // Other user details can be displayed similarly
+                  );
+                },
+              );
+            } else {
+              return Text('No users found.');
+            }
+          }
+        }),),
     );
   }
 }
@@ -55,6 +81,13 @@ class add_parent extends StatelessWidget {
     print(dob);
     print(phone);
     print(AdmissionNo);
+    userController.createUser(user(
+      name: name,
+      address: Adress,
+      password: dob,
+      admissionNo: AdmissionNo,
+      phone: phone,
+    ));
   }
 
   @override
@@ -74,7 +107,6 @@ class add_parent extends StatelessWidget {
                   label: Text("Name of Parent"),
                   border: OutlineInputBorder(),
                 ),
-                keyboardType: TextInputType.number,
               ),
               SizedBox(
                 height: 10,
@@ -120,6 +152,7 @@ class add_parent extends StatelessWidget {
               ),
               TextField(
                 controller: pDob,
+
                 decoration: InputDecoration(
                   label: Text("Password"),
                   border: OutlineInputBorder(),

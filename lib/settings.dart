@@ -4,9 +4,38 @@ import 'package:flutter/material.dart';
 import 'login.dart';
 import 'feedback_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
+
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  late ImagePicker _imagePicker;
+  XFile? _imageFile;
+
+  @override
+  void initState() {
+    super.initState();
+    _imagePicker = ImagePicker();
+  }
+
+  Future<void> _pickImage() async {
+    final XFile? pickedFile =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = pickedFile;
+      });
+    } else {
+      print('No image selected.');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +51,25 @@ class Settings extends StatelessWidget {
             height: 80.0,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.contain,
-                image: AssetImage("assets/images/profile.jpg"),
-              ),
+              image: _imageFile != null
+                  ? DecorationImage(
+                      fit: BoxFit.fitHeight,
+                      image: FileImage(File(_imageFile!.path)),
+                    )
+                  : null,
             ),
+            child: _imageFile != null
+                ? IconButton(
+                    // Child widget when no image is selected
+                    icon: Icon(Icons.ac_unit_outlined),
+                    onPressed: _pickImage,
+                  )
+                // Child widget when an image is selected
+                : IconButton(
+                    // Child widget when no image is selected
+                    icon: Icon(Icons.add_a_photo),
+                    onPressed: _pickImage,
+                  ),
           ),
           ListTile(
             leading: Icon(Icons.notifications),

@@ -2,8 +2,6 @@ import 'package:collage_bus_nufa/parent.dart';
 import 'package:collage_bus_nufa/student.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 class admin extends StatefulWidget {
   const admin({super.key});
 
@@ -39,15 +37,9 @@ class adminstate extends State<admin> {
                 crossAxisSpacing: 40,
                 mainAxisSpacing: 30,
                 children: [
-                  itemDashboard(
-                    'Parent Details',
-                    CupertinoIcons.add,
-                    Colors.deepOrange,
-                  ),
-                  itemDashboard(
-                      'Student Details', CupertinoIcons.person_2, Colors.green),
-                 
-                ],
+                  itemDashboard('Parent Details',CupertinoIcons.add,Colors.deepOrange,),
+                  itemDashboard('Student Details', CupertinoIcons.person_2, Colors.green),
+                 ],
               ),
             ),
           ),
@@ -56,9 +48,7 @@ class adminstate extends State<admin> {
       ),
     );
   }
-
-itemDashboard(String title, IconData iconData, Color background) =>
-      TextButton(
+itemDashboard(String title, IconData iconData, Color background) => TextButton(
         onPressed: () {
           if(iconData==CupertinoIcons.add){
           Navigator.of(context).push(

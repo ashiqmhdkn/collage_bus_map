@@ -1,5 +1,6 @@
 import 'package:collage_bus_nufa/parent.dart';
 import 'package:collage_bus_nufa/restart.dart';
+import 'package:collage_bus_nufa/show_feedback.dart';
 import 'package:collage_bus_nufa/student.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class adminstate extends State<admin> {
                   itemDashboard('Student Details',CupertinoIcons.add,Colors.deepOrange,parent()),
                   itemDashboard('Teacher Details', CupertinoIcons.person_2, Colors.green,student()),
                   itemDashboard('Restart', CupertinoIcons.restart, Colors.green,restart()),
-                  itemDashboard('feedback', CupertinoIcons.rectangle_stack_person_crop_fill, Colors.green,parent()),
+                  itemDashboard('feedback', CupertinoIcons.rectangle_stack_person_crop_fill, Colors.green,show_feedback()),
                  ],
               ),
             ),

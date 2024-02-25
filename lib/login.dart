@@ -147,7 +147,12 @@ class Login extends StatelessWidget {
         sp.setString("Id", _userId.text);
         sp.setString("Pass", _password.text);
         sp.setBool('log', true);
-        Get.offAll(() => apar()); //send username to Firestore
+        if(user.usertype=='admin'){
+          Get.offAll(() => admin_tab());
+          }
+        else {
+          Get.offAll(apar());
+        }
       }
     }
     if (userFound!) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:collage_bus_nufa/controllers/models/authController.dart';
+import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,11 +15,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((value) => Get.put(authController()));
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  
+   MyApp({super.key});
+  final UserController usercController=UserController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +56,13 @@ class _InitialScreenState extends State<InitialScreen> {
     await Future.delayed(const Duration(seconds: 1));
 
     if (isLogin) {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => apar()));
+       for (var userc in usercController.users)
+      if(userc.usertype=='admin'){
+          Get.offAll(() => admin_tab());
+          }
+        else {
+          Get.offAll(apar());
+        }
     } else {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => Login()));

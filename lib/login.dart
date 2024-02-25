@@ -99,7 +99,7 @@ class Login extends StatelessWidget {
                               ),
                               onPressed: () {
                                 // Toggle the value of showpassword when IconButton is pressed
-                                showpassword.toggle() ;
+                                showpassword.toggle();
                               },
                             ),
                           ),
@@ -147,10 +147,11 @@ class Login extends StatelessWidget {
         sp.setString("Id", _userId.text);
         sp.setString("Pass", _password.text);
         sp.setBool('log', true);
-        if(user.usertype=='admin'){
+        
+        if (user.usertype == 'admin') {
           Get.offAll(() => admin_tab());
-          }
-        else {
+          sp.setBool('adm', true);
+        } else {
           Get.offAll(apar());
         }
       }

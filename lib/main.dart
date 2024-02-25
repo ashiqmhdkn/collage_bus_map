@@ -15,13 +15,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((value) => Get.put(authController()));
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  
-   MyApp({super.key});
-  
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,20 +48,19 @@ class _InitialScreenState extends State<InitialScreen> {
 
   void _navigateToNextScreen() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    final UserController usercController=UserController();
+    final UserController usercController = UserController();
     bool isLogin = sp.getBool('log') ?? false;
+    bool admin=sp.getBool('adm') ?? false;
 
     // Delay added to simulate loading time for Flash screen
     await Future.delayed(const Duration(seconds: 1));
 
     if (isLogin) {
-       for (var userc in usercController.users)
-      if(userc.usertype=='admin'){
-          Get.offAll(() => admin_tab());
-          }
-        else {
-          Get.offAll(apar());
-        }
+      if (admin) {
+        Get.offAll(() => admin_tab());
+      } else {
+        Get.offAll(apar());
+      }
     } else {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => Login()));

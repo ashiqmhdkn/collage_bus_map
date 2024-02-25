@@ -1,7 +1,8 @@
+import 'package:collage_bus_nufa/controllers/models/user.dart';
+import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
+import 'package:collage_bus_nufa/parent.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart'; // Make sure to add get package to your pubspec.yaml
-import 'user.dart';
-import 'user_controller.dart'; // Adjust this import based on your project structure
+import 'package:get/get.dart';
 
 class Checklist extends StatefulWidget {
   @override

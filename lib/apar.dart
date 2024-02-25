@@ -35,10 +35,6 @@ class _aparState extends State<apar> {
               icon: Icon(Icons.account_circle_sharp),
               label: "Profile",
             ),
-            NavigationDestination(
-              icon: Icon(Icons.admin_panel_settings_outlined),
-              label: "Admin",
-            )
           ],
           selectedIndex: currentPageIndex,
           onDestinationSelected: (int index) {

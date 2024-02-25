@@ -1,7 +1,9 @@
 import 'package:collage_bus_nufa/parent.dart';
+import 'package:collage_bus_nufa/restart.dart';
 import 'package:collage_bus_nufa/student.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 class admin extends StatefulWidget {
   const admin({super.key});
 
@@ -15,7 +17,7 @@ class adminstate extends State<admin> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Admin Panel"),
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: Colors.blue,
       ),
       body: ListView(
         padding: EdgeInsets.zero,
@@ -33,12 +35,14 @@ class adminstate extends State<admin> {
               child: GridView.count(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 1,
+                crossAxisCount: 2,
                 crossAxisSpacing: 40,
                 mainAxisSpacing: 30,
                 children: [
-                  itemDashboard('Teacher Details',CupertinoIcons.add,Colors.deepOrange,),
-                  itemDashboard('Student Details', CupertinoIcons.person_2, Colors.green),
+                  itemDashboard('Teacher Details',CupertinoIcons.add,Colors.deepOrange,parent()),
+                  itemDashboard('Student Details', CupertinoIcons.person_2, Colors.green,student()),
+                  itemDashboard('Restart', CupertinoIcons.restart, Colors.green,restart()),
+                  itemDashboard('feedback', CupertinoIcons.rectangle_stack_person_crop_fill, Colors.green,parent()),
                  ],
               ),
             ),
@@ -48,44 +52,43 @@ class adminstate extends State<admin> {
       ),
     );
   }
-itemDashboard(String title, IconData iconData, Color background) => TextButton(
-        onPressed: () {
-          if(iconData==CupertinoIcons.add){
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => parent(),
+}
+Widget itemDashboard(String title, IconData iconData, Color background, Widget push) {
+  return Card(
+    elevation: 3,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15.0),
+    ),
+    child: InkWell(
+      onTap: () {
+        Get.to(push);
+      },
+      borderRadius: BorderRadius.circular(15.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(9),
+            decoration: BoxDecoration(
+              color: background,
+              shape: BoxShape.circle,
             ),
-          );
-          }
-          else{
-             Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => student(),
-            )
-          );
-          }
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(9),
-              decoration: BoxDecoration(
-                color: background,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                iconData,
-                color: Colors.white,
-                size: 67,
-              ),
+            child: Icon(
+              iconData,
+              color: Colors.white,
+              size: 67,
             ),
-            SizedBox(
-              height: 4,
+          ),
+          SizedBox(height: 8),
+          Text(
+            title.toUpperCase(),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
             ),
-            Text(title.toUpperCase(),
-                style: Theme.of(context).textTheme.titleSmall)
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    ),
+  );
 }

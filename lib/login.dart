@@ -11,6 +11,7 @@ class Login extends StatelessWidget {
 
   TextEditingController _password = TextEditingController();
   UserController usersc = Get.put(UserController());
+  RxBool showpassword = true.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -77,22 +78,37 @@ class Login extends StatelessWidget {
                             color: Colors.grey[800]), // Darker text color
                       ),
                       SizedBox(height: 8),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          labelStyle: TextStyle(color: Colors.black),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0x51B78403)),
+                      Obx(() {
+                        return TextField(
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            labelStyle: TextStyle(color: Colors.black),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0x51B78403)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFFFC122)),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                // Based on passwordVisible state choose the icon
+                                showpassword.value
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Theme.of(context).primaryColorDark,
+                              ),
+                              onPressed: () {
+                                // Toggle the value of showpassword when IconButton is pressed
+                                showpassword.toggle();
+                              },
+                            ),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFFFC122)),
-                          ),
-                        ),
-                        obscureText: true,
-                        controller: _password,
-                        style: TextStyle(
-                            color: Colors.grey[800]), // Darker text color
-                      ),
+                          obscureText: !showpassword.value,
+                          controller: _password,
+                          style: TextStyle(color: Colors.grey[800]),
+                          // Darker text color
+                        );
+                      }),
                       SizedBox(height: 20),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(

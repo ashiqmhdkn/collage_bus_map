@@ -14,7 +14,6 @@ class parent extends StatefulWidget {
 final UserController userController = Get.put(UserController());
 
 class parentState extends State<parent> {
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,20 +34,19 @@ class parentState extends State<parent> {
           tooltip: "Add a Student",
         ),
         body: Obx(() {
-        if (userController.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        } else {
-          return ListView.builder(
-            itemCount: userController.users.length,
-            itemBuilder: (_, index) {
-              return ListTile(
-                title: Text(userController.users[index].name!),
-              );
-            },
-          );
-        }
-      }),
-
+          if (userController.isLoading.value) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            return ListView.builder(
+              itemCount: userController.users.length,
+              itemBuilder: (_, index) {
+                return ListTile(
+                  title: Text(userController.users[index].name!),
+                );
+              },
+            );
+          }
+        }),
       ),
     );
   }
@@ -68,7 +66,7 @@ class add_parent extends StatelessWidget {
       String? dob,
       String? phone,
       String? AdmissionNo}) async {
-    userController.createUser(user(
+    userController.createUser(User(
       name: name,
       address: Adress,
       password: dob,

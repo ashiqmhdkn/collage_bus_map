@@ -3,34 +3,37 @@ import 'package:get/get.dart';
 import 'user.dart';
 
 class UserController extends GetxController {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
- late final CollectionReference _usersCollection =
-      firestore.collection('users');
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users');
+
+  final RxList<user> users = <user>[].obs;
+  final RxBool isLoading = true.obs;
 
   Future<void> createUser(user user) async {
     try {
-      // Convert the User object to a Map using toJson()
       await _usersCollection.add(user.tojson());
       // Handle success scenario
-    } on FirebaseException catch (e) {
+    } catch (e) {
       // Handle errors appropriately
-      print("e");
+      print("Error creating user: $e");
     }
   }
 
-  Future<List<user>> getUsers() async {
-    try {
-      // Get all documents from the "users" collection
-      final QuerySnapshot<Object?> snapshot =
-          await _usersCollection.get();
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUsers();
+  }
 
-      // Convert each document snapshot to a User object using fromJson()
-      final users =
-          snapshot.docs.map((doc) => user.fromjson(doc.data()as Map<String,dynamic>)).toList();
-      return users;
-    } on FirebaseException catch (e) {
-      // Handle errors appropriately
-      return []; // Return an empty list on error
+  Future<void> fetchUsers() async {
+    try {
+      isLoading.value = true;
+      final QuerySnapshot<Object?> snapshot = await _usersCollection.get();
+      users.assignAll(snapshot.docs.map((doc) => user.fromjson(doc.data() as Map<String, dynamic>)).toList());
+    } catch (e) {
+      print("Error fetching users: $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 }

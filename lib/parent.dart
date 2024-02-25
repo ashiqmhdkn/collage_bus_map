@@ -12,9 +12,9 @@ class parent extends StatefulWidget {
 }
 
 final UserController userController = Get.put(UserController());
-late Future<List<user>> users = userController.getUsers();
 
 class parentState extends State<parent> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,27 +34,21 @@ class parentState extends State<parent> {
           ),
           tooltip: "Add a Parent",
         ),
-        body: FutureBuilder<List<user>>(
-          future: users,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            } 
-            else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');}
-             else {
-              List<user> userList = snapshot.data!;
-              return ListView.builder(
-                itemCount: userList.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(userList[index].name!),
-                  );
-                },
-              ); // <-- Add this closing bracket for ListView.builder
-            }
-          },
-        ),
+        body: Obx(() {
+        if (userController.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return ListView.builder(
+            itemCount: userController.users.length,
+            itemBuilder: (_, index) {
+              return ListTile(
+                title: Text(userController.users[index].name!),
+              );
+            },
+          );
+        }
+      }),
+
       ),
     );
   }

@@ -39,7 +39,7 @@ class InitialScreen extends StatefulWidget {
 
   @override
   State<InitialScreen> createState() => _InitialScreenState();
-}
+} 
 
 class _InitialScreenState extends State<InitialScreen> {
   @override
@@ -56,7 +56,7 @@ class _InitialScreenState extends State<InitialScreen> {
     await Future.delayed(const Duration(seconds: 1));
 
     if (isLogin) {
-       for (var userc in usercController.users)
+      for (var userc in usercController.users)
       if(userc.usertype=='admin'){
           Get.offAll(() => admin_tab());
           }

@@ -53,7 +53,7 @@ class _aparState extends State<apar> {
           Checklist(),
           payment(),
           Settings(),
-          admin(),
+          Admin(),
         ][currentPageIndex],
       ),
     );
@@ -61,41 +61,42 @@ class _aparState extends State<apar> {
 }
 
 class admin_tab extends StatefulWidget {
-  
   const admin_tab({super.key});
 
   @override
-  State<admin> createState() => _admin_tabState();
+  State<Admin> createState() => _admin_tabState();
 }
 
-class _admin_tabState extends State<admin> {
-   int currentPageIndex = 0;
+class _admin_tabState extends State<Admin> {
+  int currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(bottomNavigationBar: NavigationBar(
-          destinations: [
-            NavigationDestination(
-              icon: Icon(Icons.account_circle_sharp),
-              label: "Profile",
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.admin_panel_settings_outlined),
-              label: "Admin",
-            )
-          ],
-          selectedIndex: currentPageIndex,
-          onDestinationSelected: (int index) {
-            setState(() {
-              currentPageIndex = index;
-            });
-          },
-          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        ),
-        body: [
-         
-          Settings(),
-          admin(),
-        ][currentPageIndex],));
+    return SafeArea(
+        child: Scaffold(
+      bottomNavigationBar: NavigationBar(
+        destinations: [
+          NavigationDestination(
+            icon: Icon(Icons.account_circle_sharp),
+            label: "Profile",
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.admin_panel_settings_outlined),
+            label: "Admin",
+          )
+        ],
+        selectedIndex: currentPageIndex,
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+      ),
+      body: [
+        Settings(),
+        Admin(),
+      ][currentPageIndex],
+    ));
   }
 }

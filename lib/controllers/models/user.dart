@@ -1,46 +1,70 @@
-class user {
+class User {
   String? name, address;
   String? phone, admissionNo;
   String? password;
-  String? date;
   String? usertype;
-  bool? entry;
-  bool? exit;
-  user(
-      {this.name,
-      this.address,
-      this.password,
-      this.phone,
-      this.admissionNo,
-      this.date,
-      this.usertype,
-      this.entry,
-      this.exit});
+  List<Journey>? journeys;
 
-  factory user.fromjson(Map<String, dynamic> json) {
-    return user(
+  User({
+    this.name,
+    this.address,
+    this.password,
+    this.phone,
+    this.admissionNo,
+    this.usertype,
+    this.journeys,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    var journeysJson = json['journeys'] as List<dynamic>? ?? [];
+    List<Journey> journeys = journeysJson
+        .map((journeyJson) => Journey.fromJson(journeyJson))
+        .toList();
+
+    return User(
       admissionNo: json['admissionNo'],
       name: json['name'],
       address: json['address'],
       phone: json['phone'],
       password: json['password'],
-      date: json['date'],
       usertype: json['usertype'],
-      entry: json['entry'],
-      exit: json['exit'],
+      journeys: journeys,
     );
   }
-  Map<String, dynamic> tojson() {
+
+  Map<String, dynamic> toJson() {
     return {
       'admission': admissionNo,
       'name': name,
       'address': address,
       'phone': phone,
       'password': password,
-      'date': date,
       'usertype': usertype,
+      'journeys': journeys?.map((journey) => journey.toJson()).toList(),
+    };
+  }
+}
+
+class Journey {
+  String? date;
+  bool? entry;
+  bool? exit;
+
+  Journey({this.date, this.entry, this.exit});
+
+  factory Journey.fromJson(Map<String, dynamic> json) {
+    return Journey(
+      date: json['date'],
+      entry: json['entry'],
+      exit: json['exit'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'date': date,
       'entry': entry,
-      'exit': exit
+      'exit': exit,
     };
   }
 }

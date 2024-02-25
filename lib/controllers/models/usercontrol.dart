@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'user.dart';
+import 'user.dart'; // Ensure this path is correct
 
 class UserController extends GetxController {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -10,31 +10,22 @@ class UserController extends GetxController {
   final RxList<User> users = <User>[].obs;
   final RxBool isLoading = true.obs;
 
-  get errorMessage => null;
-
-  get hasError => null;
-
-  Future<void> createUser(User user) async {
-    // Ensure class names are capitalized as per Dart conventions
-    try {
-      if (user.admissionNo == null) {
-        // Handle the case where admissionNo is null or not set
-        print("Error: admissionNo is null");
-        return;
-      }
-      await _usersCollection.doc(user.admissionNo).set(user
-          .toJson()); // Using .doc(user.admissionNo) to specify the document ID
-      // Handle success scenario, e.g., show a success message
-    } catch (e) {
-      // Handle errors appropriately
-      print("Error creating user: $e");
-    }
-  }
-
   @override
   void onInit() {
     super.onInit();
     fetchUsers();
+  }
+
+  Future<void> createUser(User user) async {
+    try {
+      if (user.admissionNo == null) {
+        print("Error: admissionNo is null");
+        return;
+      }
+      await _usersCollection.doc(user.admissionNo).set(user.toJson());
+    } catch (e) {
+      print("Error creating user: $e");
+    }
   }
 
   Future<void> fetchUsers() async {
@@ -48,6 +39,24 @@ class UserController extends GetxController {
       print("Error fetching users: $e");
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> updateUserJourney(String userId, Journey newJourney) async {
+    try {
+      DocumentReference userDoc = _usersCollection.doc(userId);
+      DocumentSnapshot snapshot = await userDoc.get();
+      if (snapshot.exists) {
+        User user = User.fromJson(snapshot.data() as Map<String, dynamic>);
+        if (user.journeys != null) {
+          user.journeys!.add(newJourney);
+        } else {
+          user.journeys = [newJourney];
+        }
+        await userDoc.update(user.toJson());
+      }
+    } catch (e) {
+      print("Error updating user journey: $e");
     }
   }
 }

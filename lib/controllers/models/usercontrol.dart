@@ -20,7 +20,7 @@ class UserController extends GetxController {
       // Handle success scenario
     } on FirebaseException catch (e) {
       // Handle errors appropriately
-      print("e");
+     print("e");
     }
   }
 

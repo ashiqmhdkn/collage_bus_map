@@ -34,20 +34,22 @@ class _ChecklistState extends State<Checklist> {
                   ListTile(
                     title: Text(user.name ?? "Unknown"),
                     subtitle: Text("Admission No: ${user.password}"),
-                    onTap: () => Get.bottomSheet(
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: user.journeys != null
-                            ? user.journeys!.map((journey) {
-                                return ListTile(
-                                  title: Text("Date: ${journey.date}"),
-                                  subtitle: Text(
-                                      "Entry: ${journey.entry}, Exit: ${journey.exit}"),
-                                );
-                              }).toList()
-                            : [Text("No journeys recorded")],
-                      ),
-                    ),
+                    onTap: () {
+                      Get.bottomSheet(
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: user.journeys != null
+                              ? user.journeys!.map((journey) {
+                                  return ListTile(
+                                    title: Text("Date: ${journey.date}"),
+                                    subtitle: Text(
+                                        "Entry: ${journey.entry}, Exit: ${journey.exit}"),
+                                  );
+                                }).toList()
+                              : [Text("No journeys recorded")],
+                        ),
+                      );
+                    },
                   ),
                   const Divider(),
                 ],

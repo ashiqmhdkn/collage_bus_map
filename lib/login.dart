@@ -10,7 +10,7 @@ class Login extends StatelessWidget {
   TextEditingController _userId = TextEditingController();
 
   TextEditingController _password = TextEditingController();
-  UserController usersc=Get.put(UserController());
+  UserController usersc = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class Login extends StatelessWidget {
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/login.jpg"),
+                image: AssetImage("assets/images/loginpic.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -127,16 +127,16 @@ class Login extends StatelessWidget {
     SharedPreferences sp = await SharedPreferences.getInstance();
     bool userFound = false;
     for (var user in usersc.users) {
-    if (user.name==_userId.text&&user.password==_password.text) {
-      sp.setString("Id", _userId.text);
-      sp.setString("Pass", _password.text);
-      sp.setBool('log', true);
-      Get.offAll(() => apar()); //send username to Firestore
-    }} 
-    if(userFound!) {
-      GetSnackBar(message:"Invalid username or password" );
-        print("not availablein db username or password");
+      if (user.name == _userId.text && user.password == _password.text) {
+        sp.setString("Id", _userId.text);
+        sp.setString("Pass", _password.text);
+        sp.setBool('log', true);
+        Get.offAll(() => apar()); //send username to Firestore
+      }
     }
-
+    if (userFound!) {
+      GetSnackBar(message: "Invalid username or password");
+      print("not availablein db username or password");
+    }
   }
 }

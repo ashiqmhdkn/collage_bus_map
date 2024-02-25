@@ -1,11 +1,8 @@
-import 'dart:ffi';
-
 import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import './controllers/models/usercontrol.dart';
-import 'controllers/models/user.dart';
 
 class parent extends StatefulWidget {
   parent({super.key});
@@ -16,53 +13,54 @@ class parent extends StatefulWidget {
 
 final UserController userController = Get.put(UserController());
 late Future<List<user>> users = userController.getUsers();
+
 class parentState extends State<parent> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          appBar: AppBar(
-            title: Text("Parent"),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        appBar: AppBar(
+          title: Text("Parent"),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Get.to(add_parent());
+          },
+          child: Icon(Icons.add),
+          backgroundColor: const Color.fromARGB(255, 83, 160, 223),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Get.to(add_parent());
-            },
-            child: Icon(Icons.add),
-            backgroundColor: const Color.fromARGB(255, 83, 160, 223),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            tooltip: "Add a Parent",
-          ),
-          body:  Obx(() {
-          if (userController.isLoading.value) {
-            return CircularProgressIndicator(); // Show a loading indicator while data is being fetched
-          } else if (userController.hasError.value) {
-            return Text('Error: ${userController.errorMessage.value}');
-          } else {
-            // If data is available, display it
-            late Future<List<user>> users = userController.getUsers();
-            if (users != null && users.isNotEmpty) {
+          tooltip: "Add a Parent",
+        ),
+        body: FutureBuilder<List<user>>(
+          future: users,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } 
+            else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');}
+             else {
+              List<user> userList = snapshot.data!;
               return ListView.builder(
-                itemCount: users.length,
+                itemCount: userList.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(users[index].name), // Assuming User class has a 'name' property
-                    // Other user details can be displayed similarly
+                    title: Text(userList[index].name!),
                   );
                 },
-              );
-            } else {
-              return Text('No users found.');
+              ); // <-- Add this closing bracket for ListView.builder
             }
-          }
-        }),),
+          },
+        ),
+      ),
     );
   }
 }
 
+// ignore: must_be_immutable
 class add_parent extends StatelessWidget {
   add_parent({super.key});
   TextEditingController pname = TextEditingController();
@@ -76,11 +74,6 @@ class add_parent extends StatelessWidget {
       String? dob,
       String? phone,
       String? AdmissionNo}) async {
-    print(name);
-    print(Adress);
-    print(dob);
-    print(phone);
-    print(AdmissionNo);
     userController.createUser(user(
       name: name,
       address: Adress,
@@ -152,7 +145,6 @@ class add_parent extends StatelessWidget {
               ),
               TextField(
                 controller: pDob,
-
                 decoration: InputDecoration(
                   label: Text("Password"),
                   border: OutlineInputBorder(),

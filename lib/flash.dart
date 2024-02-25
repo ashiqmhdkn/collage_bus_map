@@ -23,7 +23,7 @@ class _FlashState extends State<Flash> {
           width: double.infinity,
           height: double.infinity,
           child: Image(
-            image: AssetImage("assets/images/flash.png"),
+            image: AssetImage("assets/images/flashnew.jpg"),
             // Make the image cover the entire container
             fit: BoxFit.cover,
           ),

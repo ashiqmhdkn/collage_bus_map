@@ -22,8 +22,8 @@ class show_feedback extends StatelessWidget {
                 child: Card(
                  child: Column(
                   children: [ 
-                    ListTile( 
-                      title: Text(feedbacks[0]),
+                    Card(
+                      child: TextButton(onPressed: (){}, child: Text("Hello Wolrd"),style: ButtonStyle(),),
                     )
                   ],
                  ),

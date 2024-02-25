@@ -171,7 +171,10 @@ class payment extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Students"),
+          title:ListTile(
+            title: Text("Students",style: TextStyle(fontSize: 20),),
+            trailing: IconButton(onPressed: (){}, icon:Icon(Icons.search)),
+          ),
           automaticallyImplyLeading: false,
         ),
         body: ListView.builder(

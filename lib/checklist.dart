@@ -38,8 +38,23 @@ class _ChecklistState extends State<Checklist> {
                 children: [
                   ListTile(
                     title: Text(user.name ?? "Unknown"),
-                    subtitle: Text("Admission No: ${user.admissionNo}"),
-                    onTap: () => _showJourneyDetails(user),
+                    subtitle: Text("Admission No: ${user.password}"),
+                    onTap: () {
+                      Get.bottomSheet(
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: user.journeys != null
+                              ? user.journeys!.map((journey) {
+                                  return ListTile(
+                                    title: Text("Date: ${journey.date}"),
+                                    subtitle: Text(
+                                        "Entry: ${journey.entry}, Exit: ${journey.exit}"),
+                                  );
+                                }).toList()
+                              : [Text("No journeys recorded")],
+                        ),
+                      );
+                    },
                   ),
                   const Divider(),
                 ],
@@ -51,26 +66,11 @@ class _ChecklistState extends State<Checklist> {
     );
   }
 
-  void _showJourneyDetails(User user) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: user.journeys != null
-                ? user.journeys!.map((journey) {
-                    return ListTile(
-                      title: Text("Date: ${journey.date}"),
-                      subtitle: Text(
-                          "Entry: ${journey.entry}, Exit: ${journey.exit}"),
-                    );
-                  }).toList()
-                : [Text("No journeys recorded")],
-          ),
-        );
-      },
-    );
-  }
+  // Widget _showJourneyDetails(User user) {
+  //   // showModalBottomSheet(
+  //   //   context: context,
+  //   //   builder: (BuildContext context) {
+  //       return
+
+  // }
 }

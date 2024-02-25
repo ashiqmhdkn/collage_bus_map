@@ -13,6 +13,8 @@ class UserController extends GetxController {
 
   get hasError => null;
 
+
+
   Future<void> createUser(user user) async {
     try {
       await _usersCollection.add(user.tojson());

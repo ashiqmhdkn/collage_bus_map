@@ -39,8 +39,8 @@ class adminstate extends State<admin> {
                 crossAxisSpacing: 40,
                 mainAxisSpacing: 30,
                 children: [
-                  itemDashboard('Teacher Details',CupertinoIcons.add,Colors.deepOrange,parent()),
-                  itemDashboard('Student Details', CupertinoIcons.person_2, Colors.green,student()),
+                  itemDashboard('Student Details',CupertinoIcons.add,Colors.deepOrange,parent()),
+                  itemDashboard('Teacher Details', CupertinoIcons.person_2, Colors.green,student()),
                   itemDashboard('Restart', CupertinoIcons.restart, Colors.green,restart()),
                   itemDashboard('feedback', CupertinoIcons.rectangle_stack_person_crop_fill, Colors.green,parent()),
                  ],
@@ -61,7 +61,7 @@ Widget itemDashboard(String title, IconData iconData, Color background, Widget p
     ),
     child: InkWell(
       onTap: () {
-        Get.to(push);
+Get.to(push);
       },
       borderRadius: BorderRadius.circular(15.0),
       child: Column(

@@ -125,12 +125,15 @@ class Login extends StatelessWidget {
 
   Future<void> _handleLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    if (usersc.users[].name==_userId) {
+    bool userFound = false;
+    for (var user in usersc.users) {
+    if (user.name==_userId.text&&user.password==_password.text) {
       sp.setString("Id", _userId.text);
       sp.setString("Pass", _password.text);
       sp.setBool('log', true);
       Get.offAll(() => apar()); //send username to Firestore
-    } else {
+    }} 
+    if(userFound!) {
       GetSnackBar(message:"Invalid username or password" );
         print("not availablein db username or password");
     }

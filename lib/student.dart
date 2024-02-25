@@ -15,7 +15,7 @@ class studentState extends State<student> {
       child: Scaffold(
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           appBar: AppBar(
-            title: Text("Student"),
+            title: Text("Teacher"),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
@@ -27,7 +27,7 @@ class studentState extends State<student> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-            tooltip: "Add a Student",
+            tooltip: "Add a Teacher",
           ),
           body: ListView(
             children: [],
@@ -49,7 +49,7 @@ class _add_studentState extends State<add_student> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Add Student"),
+          title: Text("Add teacher"),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -57,7 +57,7 @@ class _add_studentState extends State<add_student> {
             children: [
               TextField(
                 decoration: InputDecoration(
-                  label: Text("Name of Student"),
+                  label: Text("Name of Teacher"),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -66,7 +66,7 @@ class _add_studentState extends State<add_student> {
               ),
               TextField(
                 decoration: InputDecoration(
-                  label: Text("Admission Number"),
+                  label: Text("Phone Number"),
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
@@ -77,13 +77,7 @@ class _add_studentState extends State<add_student> {
               SizedBox(
                 height: 10,
               ),
-              TextField(
-                decoration: InputDecoration(
-                  label: Text("Date of birth"),
-                  border: OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.datetime,
-              ),
+             
                SizedBox(
                 height: 10,
               ),

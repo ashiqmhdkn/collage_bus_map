@@ -21,7 +21,7 @@ class parentState extends State<parent> {
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         appBar: AppBar(
-          title: Text("Parent"),
+          title: Text("Student"),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -32,7 +32,7 @@ class parentState extends State<parent> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
-          tooltip: "Add a Parent",
+          tooltip: "Add a Student",
         ),
         body: Obx(() {
         if (userController.isLoading.value) {
@@ -82,7 +82,7 @@ class add_parent extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Teacher"),
+          title: Text("Student"),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -91,7 +91,7 @@ class add_parent extends StatelessWidget {
               TextField(
                 controller: pname,
                 decoration: InputDecoration(
-                  label: Text("Name of Teacher"),
+                  label: Text("Name of Student"),
                   border: OutlineInputBorder(),
                 ),
               ),

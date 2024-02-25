@@ -3,19 +3,6 @@ import 'apar.dart'; // Ensure this import points to your actual navigation targe
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
-  runApp(LoginApp());
-}
-
-class LoginApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Login(),
-    );
-  }
-}
-
 class Login extends StatefulWidget {
   Login();
 
@@ -111,8 +98,6 @@ class _LoginState extends State<Login> {
                       SizedBox(height: 20),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.black,
-                          onPrimary: Colors.white,
                           minimumSize: Size(240, 32),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),

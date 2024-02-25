@@ -1,5 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
     <application
         android:label="safe2home"
         android:name="${applicationName}"
@@ -37,4 +36,5 @@
 
     <!-- If targeting Android 10 (API level 29) or higher, also include this permission -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+   
 </manifest>

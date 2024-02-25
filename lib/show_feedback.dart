@@ -1,13 +1,13 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class show_feedback extends StatelessWidget {
-   show_feedback({super.key});
+class show_feedback extends StatefulWidget {
+  @override
+  _show_feedbackState createState() => _show_feedbackState();
+}
 
-  final feedbacks = [
-    'Simplify the user interface to make it intuitive for users of all technical levels.',
-    'Simplify the user interface to make it intuitive for users of all technical levels.Simplify the user interface to make it intuitive for users of all technical levels.',
-  ];
+class _show_feedbackState extends State<show_feedback> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -16,24 +16,30 @@ class show_feedback extends StatelessWidget {
         appBar: AppBar(
           title: Text("Feedback"),
         ),
-        body: ListView.separated(
-            itemBuilder: (context, index) {
-            return  Expanded(
-                child: Card(
-                 child: Column(
-                  children: [ 
-                    ListTile( 
-                      title: Text(feedbacks[0]),
-                    )
-                  ],
-                 ),
-                ),
-              );
-            },
-            separatorBuilder: (context, index) => SizedBox(
-                  width: 10,
-                ),
-            itemCount: 10),
+        body: StreamBuilder(
+          stream: _firestore
+              .collection('feedbacks')
+              .orderBy('timestamp', descending: true)
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                DocumentSnapshot feedback = snapshot.data!.docs[index];
+                return ListTile(
+                  title: Text(feedback['feedback']),
+                  subtitle: Text(feedback['username']),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

@@ -17,7 +17,12 @@ class _ChecklistState extends State<Checklist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("User Checklist"),
+        title:  ListTile(
+          title: Text("CheckList",style:TextStyle(fontSize: 20),),
+          trailing: IconButton(onPressed: (){
+            
+          }, icon:Icon(Icons.search)),
+        ),
         automaticallyImplyLeading: false,
       ),
       body: Obx(() {

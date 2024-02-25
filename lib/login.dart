@@ -1,18 +1,16 @@
+import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'apar.dart'; // Ensure this import points to your actual navigation target.
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Login extends StatefulWidget {
+class Login extends StatelessWidget {
   Login();
 
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
   TextEditingController _userId = TextEditingController();
+
   TextEditingController _password = TextEditingController();
+  UserController usersc=Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -127,46 +125,18 @@ class _LoginState extends State<Login> {
 
   Future<void> _handleLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    bool loginSuccess = false;
-    if (_userId.text == "ashique" && _password.text == "123" ||
-        _userId.text == "sreerag" && _password.text == "123" ||
-        _userId.text == "nasif" && _password.text == "123") {
+    bool userFound = false;
+    for (var user in usersc.users) {
+    if (user.name==_userId.text&&user.password==_password.text) {
       sp.setString("Id", _userId.text);
       sp.setString("Pass", _password.text);
       sp.setBool('log', true);
-      loginSuccess = true;
-      await _sendUsernameToFirestore(_userId.text); //send username to Firestore
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Invalid username or password"),
-      ));
+      Get.offAll(() => apar()); //send username to Firestore
+    }} 
+    if(userFound!) {
+      GetSnackBar(message:"Invalid username or password" );
+        print("not availablein db username or password");
     }
 
-    if (loginSuccess) {
-      islogin();
-    }
-  }
-
-  Future<void> _sendUsernameToFirestore(String username) async {
-    var usersCollection = FirebaseFirestore.instance.collection('users');
-    // add a new document with an auto-generated ID, or update existing document for the user
-    await usersCollection.doc(username).set(
-        {
-          'username': username,
-          // add any other user-related info here
-          'lastLogin':
-              FieldValue.serverTimestamp(), // Example: Add a server timestamp
-        },
-        SetOptions(
-            merge:
-                true)); // merge with the existing data if user already exists
-  }
-
-  Future<void> islogin() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    if (sp.getBool('log') == true) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => apar())); // Ensure this navigation is correct
-    }
   }
 }

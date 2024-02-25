@@ -1,6 +1,7 @@
 import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'login.dart';
 import 'feedback_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -105,7 +106,28 @@ class _SettingsState extends State<Settings> {
             leading: Icon(Icons.logout),
             title: Text("Logout"),
             onTap: () {
-              _showLogoutDialog(context);
+              Get.defaultDialog(
+      title: "Logout",
+      middleText: "Are you sure you want to logout?",
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back(); // Close the dialog
+          },
+          child: Text("Cancel"),
+        ),
+        TextButton(
+          onPressed: () async {
+            // Clear user session
+            SharedPreferences sp = await SharedPreferences.getInstance();
+            await sp.clear();
+            // Navigate back to the login screen
+            Get.offAll(() => Login());
+          },
+          child: Text("Logout"),
+        ),
+      ],
+    );
             },
           ),
         ],
@@ -119,37 +141,5 @@ class _SettingsState extends State<Settings> {
 
   void _showAboutAppDialog(BuildContext context) {
     // About app dialog implementation remains unchanged.
-  }
-
-  void _showLogoutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Logout"),
-          content: Text("Are you sure you want to logout?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () async {
-                // Clear user session
-                SharedPreferences sp = await SharedPreferences.getInstance();
-                await sp.clear();
-                // Navigate back to the login screen
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => Login(),
-                ));
-              },
-              child: Text("Logout"),
-            ),
-          ],
-        );
-      },
-    );
   }
 }

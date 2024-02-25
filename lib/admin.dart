@@ -37,7 +37,7 @@ class adminstate extends State<admin> {
                 crossAxisSpacing: 40,
                 mainAxisSpacing: 30,
                 children: [
-                  itemDashboard('Parent Details',CupertinoIcons.add,Colors.deepOrange,),
+                  itemDashboard('Teacher Details',CupertinoIcons.add,Colors.deepOrange,),
                   itemDashboard('Student Details', CupertinoIcons.person_2, Colors.green),
                  ],
               ),

@@ -88,7 +88,7 @@ class add_parent extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Add Parent"),
+          title: Text("Teacher"),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -97,7 +97,7 @@ class add_parent extends StatelessWidget {
               TextField(
                 controller: pname,
                 decoration: InputDecoration(
-                  label: Text("Name of Parent"),
+                  label: Text("Name of Teacher"),
                   border: OutlineInputBorder(),
                 ),
               ),

@@ -7,6 +7,12 @@ class UserController extends GetxController {
  late final CollectionReference _usersCollection =
       firestore.collection('users');
 
+  get errorMessage => null;
+
+  get hasError => null;
+
+  get isLoading => null;
+
   Future<void> createUser(user user) async {
     try {
       // Convert the User object to a Map using toJson()

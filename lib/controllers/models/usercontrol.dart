@@ -13,19 +13,13 @@ class UserController extends GetxController {
 
   get hasError => null;
 
-  get isLoading => null;
-
   Future<void> createUser(user user) async {
     try {
       await _usersCollection.add(user.tojson());
       // Handle success scenario
     } catch (e) {
       // Handle errors appropriately
-<<<<<<< HEAD
-     print("e");
-=======
       print("Error creating user: $e");
->>>>>>> 7e4a7662fc84ef7d975c75c1f1aae37197bc1f6a
     }
   }
 

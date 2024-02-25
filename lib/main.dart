@@ -21,7 +21,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   
    MyApp({super.key});
-  final UserController usercController=UserController();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +50,7 @@ class _InitialScreenState extends State<InitialScreen> {
 
   void _navigateToNextScreen() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
+    final UserController usercController=UserController();
     bool isLogin = sp.getBool('log') ?? false;
 
     // Delay added to simulate loading time for Flash screen

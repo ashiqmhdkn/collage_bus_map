@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:collage_bus_nufa/data_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -58,10 +59,18 @@ class Admin extends StatelessWidget {
             GestureDetector(
                 child: itemDashboard(
                     background: Colors.purple,
-                    iconData: CupertinoIcons.mail,
+                    iconData: CupertinoIcons.restart,
                     title: 'Feedback'),
                 onTap: () {
                   Get.to(show_feedback());
+                }),
+            GestureDetector(
+                child: itemDashboard(
+                    background: Colors.yellow,
+                    iconData: CupertinoIcons.table,
+                    title: 'Attendence'),
+                onTap: () {
+                  Get.to(attendenceTable());
                 }),
           ],
         ),

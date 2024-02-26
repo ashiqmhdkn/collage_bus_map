@@ -1,3 +1,4 @@
+import 'package:collage_bus_nufa/admin_tab.dart';
 import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -149,7 +150,7 @@ class Login extends StatelessWidget {
         sp.setBool('log', true);
         
         if (user.usertype == 'admin') {
-          Get.offAll(() => admin_tab());
+          Get.offAll(admin_tab());
           sp.setBool('adm', true);
         } else {
           Get.offAll(apar());

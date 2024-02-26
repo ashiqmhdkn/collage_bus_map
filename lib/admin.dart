@@ -6,14 +6,9 @@ import 'package:collage_bus_nufa/restart.dart';
 import 'package:collage_bus_nufa/show_feedback.dart';
 import 'package:collage_bus_nufa/student.dart';
 
-class Admin extends StatefulWidget {
+class Admin extends StatelessWidget {
   const Admin({Key? key}) : super(key: key);
 
-  @override
-  State<Admin> createState() => _AdminState();
-}
-
-class _AdminState extends State<Admin> {
   @override
   Widget build(BuildContext context) {
     // Getting screen size

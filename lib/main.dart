@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.blue,
       ),
@@ -51,7 +52,7 @@ class _InitialScreenState extends State<InitialScreen> {
     SharedPreferences sp = await SharedPreferences.getInstance();
     final UserController usercController = UserController();
     bool isLogin = sp.getBool('log') ?? false;
-    bool admin=sp.getBool('adm') ?? false;
+    bool admin = sp.getBool('adm') ?? false;
 
     // Delay added to simulate loading time for Flash screen
     await Future.delayed(const Duration(seconds: 1));

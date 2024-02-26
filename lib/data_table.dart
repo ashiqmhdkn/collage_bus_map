@@ -9,15 +9,7 @@ class attendenceTable extends StatefulWidget {
 }
 
 class _attendenceTableState extends State<attendenceTable> {
-  List dates = [
-    "Student",
-    "01/02/24",
-    "02/02/24",
-    "03/02/24",
-    "04/02/24",
-    "05/02/24",
-    "06/02/24"
-  ];
+  List dates = ["Student", "Time", "01", "02", "03", "04", "05", "06"];
   List<Map<String, bool>> student = [
     {
       "1": true,
@@ -47,10 +39,12 @@ class _attendenceTableState extends State<attendenceTable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("February -- 2024")),
       body: SafeArea(
         child: DataTable2(
           columnSpacing: 12,
           horizontalMargin: 12,
+
           minWidth: 600,
 
           //  DataTable(
@@ -84,12 +78,48 @@ class _attendenceTableState extends State<attendenceTable> {
                                 color: const Color.fromARGB(255, 2, 2, 2)),
                           ),
                         ),
-                        DataCell(present(psnt: e["1"]!)),
-                        DataCell(present(psnt: e["2"]!)),
-                        DataCell(present(psnt: e["3"]!)),
-                        DataCell(present(psnt: e["4"]!)),
-                        DataCell(present(psnt: e["5"]!)),
-                        DataCell(present(psnt: e["6"]!)),
+                        DataCell(Column(
+                          children: [
+                            Text("M"),
+                            Text("E"),
+                          ],
+                        )),
+                        DataCell(Column(
+                          children: [
+                            present(psnt: e["1"]!),
+                            present(psnt: e["1"]!),
+                          ],
+                        )),
+                        DataCell(Column(
+                          children: [
+                            present(psnt: e["2"]!),
+                            present(psnt: e["2"]!),
+                          ],
+                        )),
+                        DataCell(Column(
+                          children: [
+                            present(psnt: e["3"]!),
+                            present(psnt: e["3"]!),
+                          ],
+                        )),
+                        DataCell(Column(
+                          children: [
+                            present(psnt: e["4"]!),
+                            present(psnt: e["4"]!),
+                          ],
+                        )),
+                        DataCell(Column(
+                          children: [
+                            present(psnt: e["5"]!),
+                            present(psnt: e["5"]!),
+                          ],
+                        )),
+                        DataCell(Column(
+                          children: [
+                            present(psnt: e["6"]!),
+                            present(psnt: e["6"]!),
+                          ],
+                        )),
                       ]))
                   .toList(),
         ),

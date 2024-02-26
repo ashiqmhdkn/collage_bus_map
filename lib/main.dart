@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:collage_bus_nufa/admin_tab.dart';
 import 'package:collage_bus_nufa/controllers/models/authController.dart';
+import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,11 +16,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((value) => Get.put(authController()));
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +49,19 @@ class _InitialScreenState extends State<InitialScreen> {
 
   void _navigateToNextScreen() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
+    final UserController usercController = UserController();
     bool isLogin = sp.getBool('log') ?? false;
+    bool admin=sp.getBool('adm') ?? false;
 
     // Delay added to simulate loading time for Flash screen
     await Future.delayed(const Duration(seconds: 1));
 
     if (isLogin) {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => apar()));
+      if (admin) {
+        Get.offAll(() => admin_tab());
+      } else {
+        Get.offAll(apar());
+      }
     } else {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => Login()));

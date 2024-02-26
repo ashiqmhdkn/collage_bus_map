@@ -1,124 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class Checklist extends StatefulWidget {
-  @override
-  _ChecklistState createState() => _ChecklistState();
-}
+import 'package:collage_bus_nufa/controllers/models/user.dart';
+import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
+import 'package:collage_bus_nufa/parent.dart';
 
-enum JourneyStatus { atPickup, onBus, nearDestination, arrived }
-
-class TextDto {
-  final String title;
-  final String date;
-  final String locationDetail;
-
-  TextDto(this.title, this.date, this.locationDetail);
-}
-
-class _ChecklistState extends State<Checklist> {
-  final List<String> users = [
-    'Michael Wilson',
-    'Vivienne Daniel',
-    'Alexander Johnson',
-    'Emma Thompson',
-    'Jonah Stephens',
-    'Julia Salazar',
-    'Rowan Briggs',
-    'Christopher White',
-    'Olivia Lopez',
-    'Joshua Martin',
-    'Sophia Lee',
-  ];
-
-  Map<String, JourneyStatus> userJourneyStatus = {};
-  Map<String, List<TextDto>> userJourneyDetails = {};
-
-  @override
-  void initState() {
-    super.initState();
-    for (var user in users) {
-      userJourneyStatus[user] = JourneyStatus.atPickup;
-      userJourneyDetails[user] = [
-        TextDto("At Pickup Point", "Starting Point", "Location: Pickup Point")
-      ];
-    }
-  }
-
-  void _showJourneyDetails(String user) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListView(
-                shrinkWrap: true,
-                children: userJourneyDetails[user]!
-                    .map((detail) => ListTile(
-                          title: Text("${detail.title} - ${detail.date}"),
-                          subtitle: Text(detail.locationDetail),
-                        ))
-                    .toList(),
-              ),
-              if (userJourneyStatus[user] != JourneyStatus.arrived)
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      String locationDetail = "Location Detail Not Available";
-
-                      switch (userJourneyStatus[user]) {
-                        case JourneyStatus.atPickup:
-                          userJourneyStatus[user] = JourneyStatus.onBus;
-                          locationDetail = "Location: En Route";
-                          break;
-                        case JourneyStatus.onBus:
-                          userJourneyStatus[user] =
-                              JourneyStatus.nearDestination;
-                          locationDetail = "Location: Near Destination";
-                          break;
-                        case JourneyStatus.nearDestination:
-                          userJourneyStatus[user] = JourneyStatus.arrived;
-                          locationDetail = "Location: Destination";
-                          break;
-                        default:
-                          break;
-                      }
-                      userJourneyDetails[user]!
-                          .add(TextDto("Stage Changed", "Now", locationDetail));
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Next Stage'),
-                ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
+class Checklist extends StatelessWidget {
+  final UserController userController =
+      Get.put(UserController()); 
+ // Initialize UserController
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("User Checklist"),
+        title: ListTile(
+          title: Text(
+            "CheckList",
+            style: TextStyle(fontSize: 20),
+          ),
+          trailing: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+        ),
         automaticallyImplyLeading: false,
       ),
-      body: ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              ListTile(
-                title: Text(users[index]),
-                onTap: () => _showJourneyDetails(users[index]),
-              ),
-              const Divider(),
-            ],
+      body: Obx(() {
+        // Use Obx here to listen to changes in UserController
+        if (userController.isLoading.isTrue) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return ListView.builder(
+            itemCount: userController.users.length,
+            itemBuilder: (context, index) {
+              User user = userController.users[index];
+              return Column(
+                children: [
+                  ListTile(
+                    title: Text(user.name ?? "Unknown"),
+                    subtitle: Text("Admission No: ${user.password}"),
+                    onTap: () {
+                      Get.bottomSheet(
+                        bottom(user: user),
+                      );
+                      // Get.bottomSheet(
+                      //   Column(
+                      //     mainAxisSize: MainAxisSize.min,
+                      //     children: user.journeys != null
+                      //         ? user.journeys!.map((journey) {
+                      //             return ListTile(
+                      //               title: Text("Date: ${journey.date}"),
+                      //               subtitle: Text(
+                      //                   "Entry: ${journey.entry}, Exit: ${journey.exit}"),
+                      //             );
+                      //           }).toList()
+                      //         : [Text("No journeys recorded")],
+                      //   ),
+                      // );
+                    },
+                  ),
+                  const Divider(),
+                ],
+              );
+            },
           );
-        },
+        }
+      }),
+    );
+  }
+}
+
+class bottom extends StatelessWidget {
+  User user;
+  bottom({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          children: user.journeys != null
+              ? user.journeys!.map((journey) {
+                  return ListTile(
+                    title: Text("Date: ${journey.date}"),
+                    subtitle:
+                        Text("Entry: ${journey.entry}, Exit: ${journey.exit}"),
+                  );
+                }).toList()
+              : [Text("No journeys recorded")],
+        ),
       ),
     );
   }

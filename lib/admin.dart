@@ -1,85 +1,65 @@
-import 'package:collage_bus_nufa/parent.dart';
-import 'package:collage_bus_nufa/student.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:collage_bus_nufa/parent.dart';
+import 'package:collage_bus_nufa/restart.dart';
+import 'package:collage_bus_nufa/show_feedback.dart';
+import 'package:collage_bus_nufa/student.dart';
 
-class admin extends StatefulWidget {
-  const admin({super.key});
+class Admin extends StatelessWidget {
+  const Admin({Key? key}) : super(key: key);
 
-  @override
-  State<admin> createState() => adminstate();
-}
-
-class adminstate extends State<admin> {
   @override
   Widget build(BuildContext context) {
+    // Getting screen size
+    var size = MediaQuery.of(context).size;
+
+    // Adjusting the child aspect ratio based on screen size
+    double aspectRatio = size.width / (size.height / 1.5);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Admin Panel"),
-        backgroundColor: Colors.amberAccent,
+        title: const Text("Admin Panel"),
+        backgroundColor: Colors.blue,
       ),
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          Container(
-            padding: EdgeInsets.all(20),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(200),
-                ),
-              ),
-              child: GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 1,
-                crossAxisSpacing: 40,
-                mainAxisSpacing: 30,
-                children: [
-                  itemDashboard(
-                    'Parent Details',
-                    CupertinoIcons.add,
-                    Colors.deepOrange,
-                  ),
-                  itemDashboard(
-                      'Student Details', CupertinoIcons.person_2, Colors.green),
-                 
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20)
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: GridView.count(
+          crossAxisCount: size.width > 600 ? 4 : 2, // Number of columns
+          crossAxisSpacing: 10, // Horizontal space between cards
+          mainAxisSpacing: 80, // Vertical space between cards
+          childAspectRatio: aspectRatio, // Adjust based on your content
+          children: <Widget>[
+            itemDashboard('Student Details', CupertinoIcons.person_2,
+                Colors.deepOrange, parent()),
+            itemDashboard('Teacher Details', CupertinoIcons.person_3,
+                Colors.green, student()),
+            itemDashboard(
+                'Restart', CupertinoIcons.restart, Colors.blue, restart()),
+            itemDashboard('Feedback', CupertinoIcons.mail, Colors.purple,
+                show_feedback()),
+          ],
+        ),
       ),
     );
   }
 
-itemDashboard(String title, IconData iconData, Color background) =>
-      TextButton(
-        onPressed: () {
-          if(iconData==CupertinoIcons.add){
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => parent(),
-            ),
-          );
-          }
-          else{
-             Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => student(),
-            )
-          );
-          }
-        },
+  Widget itemDashboard(
+      String title, IconData iconData, Color background, Widget push) {
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => push);
+      },
+      child: Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(9),
+              padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: background,
                 shape: BoxShape.circle,
@@ -87,15 +67,21 @@ itemDashboard(String title, IconData iconData, Color background) =>
               child: Icon(
                 iconData,
                 color: Colors.white,
-                size: 67,
+                size: 50,
               ),
             ),
-            SizedBox(
-              height: 4,
+            const SizedBox(height: 10),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            Text(title.toUpperCase(),
-                style: Theme.of(context).textTheme.titleSmall)
           ],
         ),
-      );
+      ),
+    );
+  }
 }

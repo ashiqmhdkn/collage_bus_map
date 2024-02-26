@@ -1,7 +1,6 @@
 import 'package:collage_bus_nufa/admin.dart';
 import 'package:collage_bus_nufa/checklist.dart';
 import 'package:collage_bus_nufa/payment.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'settings.dart';
 import 'home.dart';
@@ -19,43 +18,40 @@ class _aparState extends State<apar> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      bottomNavigationBar: NavigationBar(
-        destinations: [
-          NavigationDestination(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          NavigationDestination(
-              icon: Icon(Icons.check_box), label: "Checklist"),
-          NavigationDestination(
-            icon: Icon(Icons.payment),
-            label: "Payment",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.account_circle_sharp),
-            label: "Profile",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.admin_panel_settings_outlined),
-            label: "Admin",
-          )
-        ],
-        selectedIndex: currentPageIndex,
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+      child: Scaffold(
+        bottomNavigationBar: NavigationBar(
+          destinations: [
+            NavigationDestination(
+              icon: Icon(Icons.home),
+              label: "Home",
+            ),
+            NavigationDestination(
+                icon: Icon(Icons.check_box), label: "Checklist"),
+            NavigationDestination(
+              icon: Icon(Icons.payment),
+              label: "Payment",
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.account_circle_sharp),
+              label: "Profile",
+            ),
+          ],
+          selectedIndex: currentPageIndex,
+          onDestinationSelected: (int index) {
+            setState(() {
+              currentPageIndex = index;
+            });
+          },
+          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+        ),
+        body: [
+          Home(),
+          Checklist(),
+          payment(),
+          Settings(),
+          Admin(),
+        ][currentPageIndex],
       ),
-      body: [
-        Home(),
-        Checklist(),
-        payment(),
-        Settings(),
-        admin(),
-      ][currentPageIndex],
-    ));
+    );
   }
 }

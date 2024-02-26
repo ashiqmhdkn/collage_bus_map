@@ -1,31 +1,18 @@
+import 'package:collage_bus_nufa/admin_tab.dart';
+import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'apar.dart'; // Ensure this import points to your actual navigation target.
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
-  runApp(LoginApp());
-}
-
-class LoginApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Login(),
-    );
-  }
-}
-
-class Login extends StatefulWidget {
+class Login extends StatelessWidget {
   Login();
 
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
   TextEditingController _userId = TextEditingController();
+
   TextEditingController _password = TextEditingController();
+  UserController usersc = Get.put(UserController());
+  RxBool showpassword = true.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +25,7 @@ class _LoginState extends State<Login> {
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/login.jpg"),
+                image: AssetImage("assets/images/loginpic.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -92,27 +79,40 @@ class _LoginState extends State<Login> {
                             color: Colors.grey[800]), // Darker text color
                       ),
                       SizedBox(height: 8),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          labelStyle: TextStyle(color: Colors.black),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0x51B78403)),
+                      Obx(() {
+                        return TextField(
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            labelStyle: TextStyle(color: Colors.black),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0x51B78403)),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFFFC122)),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                // Based on passwordVisible state choose the icon
+                                showpassword.value
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Theme.of(context).primaryColorDark,
+                              ),
+                              onPressed: () {
+                                // Toggle the value of showpassword when IconButton is pressed
+                                showpassword.toggle();
+                              },
+                            ),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFFFC122)),
-                          ),
-                        ),
-                        obscureText: true,
-                        controller: _password,
-                        style: TextStyle(
-                            color: Colors.grey[800]), // Darker text color
-                      ),
+                          obscureText: !showpassword.value,
+                          controller: _password,
+                          style: TextStyle(color: Colors.grey[800]),
+                          // Darker text color
+                        );
+                      }),
                       SizedBox(height: 20),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.black,
-                          onPrimary: Colors.white,
                           minimumSize: Size(240, 32),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),
@@ -142,46 +142,24 @@ class _LoginState extends State<Login> {
 
   Future<void> _handleLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    bool loginSuccess = false;
-    if (_userId.text == "ashique" && _password.text == "123" ||
-        _userId.text == "sreerag" && _password.text == "123" ||
-        _userId.text == "nasif" && _password.text == "123") {
-      sp.setString("Id", _userId.text);
-      sp.setString("Pass", _password.text);
-      sp.setBool('log', true);
-      loginSuccess = true;
-      await _sendUsernameToFirestore(_userId.text); //send username to Firestore
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Invalid username or password"),
-      ));
+    bool userFound = false;
+    for (var user in usersc.users) {
+      if (user.name == _userId.text && user.password == _password.text) {
+        sp.setString("Id", _userId.text);
+        sp.setString("Pass", _password.text);
+        sp.setBool('log', true);
+        
+        if (user.usertype == 'admin') {
+          Get.offAll(admin_tab());
+          sp.setBool('adm', true);
+        } else {
+          Get.offAll(apar());
+        }
+      }
     }
-
-    if (loginSuccess) {
-      islogin();
-    }
-  }
-
-  Future<void> _sendUsernameToFirestore(String username) async {
-    var usersCollection = FirebaseFirestore.instance.collection('users');
-    // add a new document with an auto-generated ID, or update existing document for the user
-    await usersCollection.doc(username).set(
-        {
-          'username': username,
-          // add any other user-related info here
-          'lastLogin':
-              FieldValue.serverTimestamp(), // Example: Add a server timestamp
-        },
-        SetOptions(
-            merge:
-                true)); // merge with the existing data if user already exists
-  }
-
-  Future<void> islogin() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    if (sp.getBool('log') == true) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => apar())); // Ensure this navigation is correct
+    if (userFound!) {
+      GetSnackBar(message: "Invalid username or password");
+      print("not availablein db username or password");
     }
   }
 }

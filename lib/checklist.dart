@@ -75,6 +75,7 @@ class bottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String date = DateTime.now().toString();
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -95,7 +96,7 @@ class bottom extends StatelessWidget {
                     ? [
                         ListTile(
                           title: Text("Date: ${DateTime.now()}"),
-                          subtitle: Text("Entry: true, Exit:false"),
+                          subtitle: Text("the morning enter"),
                         )
                       ]
                     : user.journeys!.map((journey) {
@@ -113,7 +114,14 @@ class bottom extends StatelessWidget {
                         Get.back();
                       },
                       child: Text("Cancel")),
-                  ElevatedButton(onPressed: () {}, child: Text("InBus")),
+                  ElevatedButton(
+                      onPressed: () {
+                        userController.updateUserJourney(
+                            newJourney:
+                                Journey(date: date, entry: true, exit: false),
+                                userName: user.name,);
+                      },
+                      child: Text("InBus")),
                 ],
               ),
             ],

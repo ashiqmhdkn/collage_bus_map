@@ -90,6 +90,7 @@ class bottom extends StatelessWidget {
           child: Column(
             children: [
               Column(
+                mainAxisSize: MainAxisSize.min,
                 children: user.journeys!.isEmpty
                     ? [
                         ListTile(

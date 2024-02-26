@@ -6,9 +6,8 @@ import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:collage_bus_nufa/parent.dart';
 
 class Checklist extends StatelessWidget {
-  final UserController userController =
-      Get.put(UserController()); 
- // Initialize UserController
+  final UserController userController = Get.put(UserController());
+  // Initialize UserController
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,16 +85,38 @@ class bottom extends StatelessWidget {
       ),
       child: SizedBox(
         width: double.infinity,
-        child: Column(
-          children: user.journeys != null
-              ? user.journeys!.map((journey) {
-                  return ListTile(
-                    title: Text("Date: ${journey.date}"),
-                    subtitle:
-                        Text("Entry: ${journey.entry}, Exit: ${journey.exit}"),
-                  );
-                }).toList()
-              : [Text("No journeys recorded")],
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Column(
+                children: user.journeys!.isEmpty
+                    ? [
+                        ListTile(
+                          title: Text("Date: ${DateTime.now()}"),
+                          subtitle: Text("Entry: true, Exit:false"),
+                        )
+                      ]
+                    : user.journeys!.map((journey) {
+                        return ListTile(
+                          title: Text("Date: ${journey.date}"),
+                          subtitle: Text(
+                              "Entry: ${journey.entry}, Exit: ${journey.exit}"),
+                        );
+                      }).toList(),
+              ),
+              Row(
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text("Cancel")),
+                  ElevatedButton(onPressed: () {}, child: Text("InBus")),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

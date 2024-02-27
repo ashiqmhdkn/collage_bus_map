@@ -70,7 +70,7 @@ class Home extends StatelessWidget {
                           end: LatLng(10.871674657929175, 75.93404357896162),
                         );
                       },
-                      child: Text("print")),
+                      child: null),
                 ],
               );
             }

@@ -42,18 +42,26 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> updateUserJourney(String userId, Journey newJourney) async {
+  Future<void> updateUserJourney({ required Journey newJourney,String? userName}) async {
     try {
-      DocumentReference userDoc = _usersCollection.doc(userId);
-      DocumentSnapshot snapshot = await userDoc.get();
-      if (snapshot.exists) {
-        User user = User.fromJson(snapshot.data() as Map<String, dynamic>);
-        if (user.journeys != null) {
-          user.journeys!.add(newJourney);
-        } else {
-          user.journeys = [newJourney];
+      final QuerySnapshot userSnapshot =
+          await _usersCollection.where('name', isEqualTo: userName).get();
+      if (userSnapshot.docs.isNotEmpty) {
+        String userId = userSnapshot.docs.first.id;
+
+        DocumentReference userDoc = _usersCollection.doc(userId);
+        DocumentSnapshot snapshot = await userDoc.get();
+        if (snapshot.exists) {
+          User user = User.fromJson(snapshot.data() as Map<String, dynamic>);
+          if (user.journeys != null) {
+            user.journeys!.add(newJourney);
+          } else {
+            user.journeys = [newJourney];
+          }
+          await userDoc.update(user.toJson());
         }
-        await userDoc.update(user.toJson());
+      } else {
+        print('error in user $userName');
       }
     } catch (e) {
       print("Error updating user journey: $e");

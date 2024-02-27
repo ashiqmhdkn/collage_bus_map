@@ -1,3 +1,4 @@
+import 'package:collage_bus_nufa/admin_tab.dart';
 import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -99,7 +100,7 @@ class Login extends StatelessWidget {
                               ),
                               onPressed: () {
                                 // Toggle the value of showpassword when IconButton is pressed
-                                showpassword.toggle() ;
+                                showpassword.toggle();
                               },
                             ),
                           ),
@@ -147,10 +148,11 @@ class Login extends StatelessWidget {
         sp.setString("Id", _userId.text);
         sp.setString("Pass", _password.text);
         sp.setBool('log', true);
-        if(user.usertype=='admin'){
-          Get.offAll(() => admin_tab());
-          }
-        else {
+        
+        if (user.usertype == 'admin') {
+          Get.offAll(admin_tab());
+          sp.setBool('adm', true);
+        } else {
           Get.offAll(apar());
         }
       }

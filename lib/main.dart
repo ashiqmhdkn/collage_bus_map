@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:collage_bus_nufa/admin_tab.dart';
 import 'package:collage_bus_nufa/controllers/models/authController.dart';
 import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:flutter/material.dart';
@@ -15,17 +16,16 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((value) => Get.put(authController()));
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  
-   MyApp({super.key});
-  
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.blue,
       ),
@@ -50,13 +50,15 @@ class _InitialScreenState extends State<InitialScreen> {
 
   void _navigateToNextScreen() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-    final UserController usercController=UserController();
+    final UserController usercController = UserController();
     bool isLogin = sp.getBool('log') ?? false;
+    bool admin = sp.getBool('adm') ?? false;
 
     // Delay added to simulate loading time for Flash screen
     await Future.delayed(const Duration(seconds: 1));
 
     if (isLogin) {
+<<<<<<< HEAD
       for (var userc in usercController.users)
       if(userc.usertype=='admin'){
           Get.offAll(() => admin_tab());
@@ -64,6 +66,13 @@ class _InitialScreenState extends State<InitialScreen> {
         else {
           Get.offAll(apar());
         }
+=======
+      if (admin) {
+        Get.offAll(() => admin_tab());
+      } else {
+        Get.offAll(apar());
+      }
+>>>>>>> 6c1569092c42ec1467fad5d1de7dae34341886c3
     } else {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => Login()));

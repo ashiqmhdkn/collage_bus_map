@@ -1,5 +1,8 @@
 import 'package:collage_bus_nufa/map.dart';
+import 'package:collage_bus_nufa/show_feedback.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'locationmap.dart';
 import 'message_page.dart';
@@ -65,12 +68,13 @@ class Home extends StatelessWidget {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        getDirections(
-                          start: LatLng(10.902752012224196, 76.12170400178304),
-                          end: LatLng(10.871674657929175, 75.93404357896162),
-                        );
+                        // getDirections(
+                        //   start: LatLng(10.902752012224196, 76.12170400178304),
+                        //   end: LatLng(10.871674657929175, 75.93404357896162),
+                        // );
+                        Get.to(show_feedback());
                       },
-                      child: null),
+                      child: null)
                 ],
               );
             }

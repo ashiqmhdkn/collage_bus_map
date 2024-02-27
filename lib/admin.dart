@@ -56,14 +56,7 @@ class Admin extends StatelessWidget {
                 onTap: () {
                   restartApp();
                 }),
-            GestureDetector(
-                child: itemDashboard(
-                    background: Colors.purple,
-                    iconData: CupertinoIcons.restart,
-                    title: 'Feedback'),
-                onTap: () {
-                  Get.to(show_feedback());
-                }),
+           
             GestureDetector(
                 child: itemDashboard(
                     background: Colors.yellow,

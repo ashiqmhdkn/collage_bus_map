@@ -62,7 +62,6 @@ class LocationMap extends StatefulWidget {
 
 class _LocationMapState extends State<LocationMap> {
   final LatLng collegeLat = LatLng(10.902752012224196, 76.12170400178304);
-
   final LatLng startingLat = LatLng(10.871674657929175, 75.93404357896162);
   final LatLng valancheryLat = LatLng(10.887939, 76.073187);
   final LatLng thriunavayaLat = LatLng(10.865801, 75.984058);

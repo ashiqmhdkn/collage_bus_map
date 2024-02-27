@@ -92,15 +92,6 @@ class _SettingsState extends State<Settings> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.feedback),
-            title: Text("Feedback"),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const FeedbackPage()));
-            },
-          ),
-          ListTile(
             leading: Icon(Icons.logout),
             title: Text("Logout"),
             onTap: () {

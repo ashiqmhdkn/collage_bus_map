@@ -153,7 +153,7 @@ class Login extends StatelessWidget {
           Get.offAll(admin_tab());
           sp.setBool('adm', true);
         } else {
-          Get.offAll(apar());
+          Get.offAll(());
         }
       }
     }

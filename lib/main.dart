@@ -58,21 +58,11 @@ class _InitialScreenState extends State<InitialScreen> {
     await Future.delayed(const Duration(seconds: 1));
 
     if (isLogin) {
-<<<<<<< HEAD
-      for (var userc in usercController.users)
-      if(userc.usertype=='admin'){
-          Get.offAll(() => admin_tab());
-          }
-        else {
-          Get.offAll(apar());
-        }
-=======
       if (admin) {
         Get.offAll(() => admin_tab());
       } else {
         Get.offAll(apar());
       }
->>>>>>> 6c1569092c42ec1467fad5d1de7dae34341886c3
     } else {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => Login()));

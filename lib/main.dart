@@ -22,6 +22,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blue,
       ),
       home: const InitialScreen(),
+
     );
   }
 }
@@ -64,8 +66,7 @@ class _InitialScreenState extends State<InitialScreen> {
         Get.offAll(apar());
       }
     } else {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
+    Get.offAll( Login());
     }
   }
 

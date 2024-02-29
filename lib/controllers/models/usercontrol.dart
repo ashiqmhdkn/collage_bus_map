@@ -43,28 +43,36 @@ class UserController extends GetxController {
   }
 
   Future<void> updateUserJourney({ required Journey newJourney,String? userName}) async {
-    try {
-      final QuerySnapshot userSnapshot =
-          await _usersCollection.where('name', isEqualTo: userName).get();
-      if (userSnapshot.docs.isNotEmpty) {
-        String userId = userSnapshot.docs.first.id;
+  try {
+    final QuerySnapshot userSnapshot =
+        await _usersCollection.where('name', isEqualTo: userName).get();
+    if (userSnapshot.docs.isNotEmpty) {
+      String userId = userSnapshot.docs.first.id;
 
-        DocumentReference userDoc = _usersCollection.doc(userId);
-        DocumentSnapshot snapshot = await userDoc.get();
-        if (snapshot.exists) {
-          User user = User.fromJson(snapshot.data() as Map<String, dynamic>);
-          if (user.journeys != null) {
-            user.journeys!.add(newJourney);
+      DocumentReference userDoc = _usersCollection.doc(userId);
+      DocumentSnapshot snapshot = await userDoc.get();
+      if (snapshot.exists) {
+        User user = User.fromJson(snapshot.data() as Map<String, dynamic>);
+        if (user.journeys != null) {
+          final index = user.journeys!.indexWhere((journey) => journey.date == newJourney.date);
+          if (index != -1) {
+            // If a journey already exists for this date, update it
+            user.journeys![index].entry = newJourney.entry ?? user.journeys![index].entry;
+            user.journeys![index].exit = newJourney.exit ?? user.journeys![index].exit;
           } else {
-            user.journeys = [newJourney];
+            // If no journey exists for this date, add a new one
+            user.journeys!.add(newJourney);
           }
-          await userDoc.update(user.toJson());
+        } else {
+          user.journeys = [newJourney];
         }
-      } else {
-        GetSnackBar(message:'error in user $userName');
+        await userDoc.update(user.toJson());
       }
-    } catch (e) {
-      GetSnackBar(message:"Error updating user journey: $e");
+    } else {
+      GetSnackBar(message:'error in user $userName');
     }
+  } catch (e) {
+    GetSnackBar(message:"Error updating user journey: $e");
   }
+}
 }

@@ -3,9 +3,7 @@ import 'package:collage_bus_nufa/data_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:collage_bus_nufa/parent.dart';
-import 'package:collage_bus_nufa/show_feedback.dart';
 import 'package:collage_bus_nufa/student.dart';
 
 class Admin extends StatelessWidget {
@@ -48,14 +46,14 @@ class Admin extends StatelessWidget {
                 onTap: () {
                   Get.to(student());
                 }),
-            GestureDetector(
-                child: itemDashboard(
-                    background: Colors.blue,
-                    iconData: CupertinoIcons.restart,
-                    title: 'Restart'),
-                onTap: () {
-                  restartApp();
-                }),
+            // GestureDetector(
+            //     child: itemDashboard(
+            //         background: Colors.blue,
+            //         iconData: CupertinoIcons.restart,
+            //         title: 'Restart'),
+            //     onTap: () {
+            //       restartApp();
+            //     }),
            
             GestureDetector(
                 child: itemDashboard(
@@ -63,7 +61,7 @@ class Admin extends StatelessWidget {
                     iconData: CupertinoIcons.table,
                     title: 'Attendence'),
                 onTap: () {
-                  Get.to(attendenceTable());
+                  Get.to(AttendanceTable ());
                 }),
           ],
         ),

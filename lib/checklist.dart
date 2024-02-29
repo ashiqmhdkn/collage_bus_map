@@ -4,6 +4,14 @@ import 'package:get/get.dart';
 import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 import 'package:collage_bus_nufa/parent.dart';
+import 'package:intl/intl.dart';
+
+DateTime now = DateTime.now();
+var formatterDate = DateFormat('dd/MM/yy');
+var formatterTime = DateFormat('kk:mm');
+String actualDate = formatterDate.format(now);
+String actualTime = formatterTime.format(now);
+
 
 class Checklist extends StatelessWidget {
   final UserController userController = Get.put(UserController());
@@ -88,43 +96,45 @@ class bottom extends StatelessWidget {
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: user.journeys!.isEmpty
-                    ? [
-                        ListTile(
-                          title: Text("Date: ${DateTime.now()}"),
-                          subtitle: Text("the morning enter"),
-                        )
-                      ]
-                    : user.journeys!.map((journey) {
-                        return ListTile(
-                          title: Text("Date: ${journey.date}"),
-                          subtitle: Text(
-                              "Entry: ${journey.entry}, Exit: ${journey.exit}"),
-                        );
-                      }).toList(),
-              ),
-              Row(
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Text("Cancel")),
-                  ElevatedButton(
-                      onPressed: () {
-                        userController.updateUserJourney(
-                            newJourney:
-                                Journey(date: date, entry: true, exit: false),
-                                userName: user.name,);
-                      },
-                      child: Text("InBus")),
-                ],
-              ),
-            ],
+          child: Expanded(
+            child: Column(
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: user.journeys!.isEmpty
+                      ? [
+                          ListTile(
+                            title: Text("Date: ${DateTime.now()}"),
+                            subtitle: Text("the morning enter"),
+                          )
+                        ]
+                      : user.journeys!.map((journey) {
+                          return ListTile(
+                            title: Text("Date: ${journey.date}"),
+                            subtitle: Text(
+                                "Entry: ${journey.entry}, Exit: ${journey.exit}"),
+                          );
+                        }).toList(),
+                ),
+                Row(
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Text("Cancel")),
+                    ElevatedButton(
+                        onPressed: () {
+                          userController.updateUserJourney(
+                              newJourney:
+                                  Journey(date: date, entry: true, exit: false),
+                                  userName: user.name,);
+                        },
+                        child: Text("InBus")),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

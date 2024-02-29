@@ -44,8 +44,7 @@ class parentState extends State<parent> {
                   title: Text(userController.users[index].name!),
                   subtitle: Text(userController.users[index].password??'what'),
                    trailing: Container(
-                    width: 100,
-                     child: Row(
+                    width: 100,                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                        children: [
                       IconButton(onPressed: () {}, icon: Icon(Icons.delete)),

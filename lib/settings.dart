@@ -71,8 +71,8 @@ class _SettingsState extends State<Settings> {
                   ),
           ),
           ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text("Notifications"),
+            leading: Icon(Icons.edit),
+            title: Text("Edit Profile"),
             trailing: Icon(Icons.arrow_forward_ios),
           ),
           ListTile(

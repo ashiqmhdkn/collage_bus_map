@@ -66,15 +66,6 @@ class Home extends StatelessWidget {
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        // getDirections(
-                        //   start: LatLng(10.902752012224196, 76.12170400178304),
-                        //   end: LatLng(10.871674657929175, 75.93404357896162),
-                        // );
-                        Get.to(show_feedback());
-                      },
-                      child: null)
                 ],
               );
             }

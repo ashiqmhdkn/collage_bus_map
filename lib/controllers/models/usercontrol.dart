@@ -18,13 +18,13 @@ class UserController extends GetxController {
 
   Future<void> createUser(User user) async {
     try {
-      if (user.admissionNo == null) {
-        print("Error: admissionNo is null");
+      if (user.name== null) {
+        GetSnackBar(message:"Error: name is null");
         return;
       }
-      await _usersCollection.doc(user.admissionNo).set(user.toJson());
+      await _usersCollection.doc().set(user.toJson());
     } catch (e) {
-      print("Error creating user: $e");
+      GetSnackBar(message:"Error creating user: $e");
     }
   }
 
@@ -36,7 +36,7 @@ class UserController extends GetxController {
           .map((doc) => User.fromJson(doc.data() as Map<String, dynamic>))
           .toList());
     } catch (e) {
-      print("Error fetching users: $e");
+      GetSnackBar(message:"Error fetching users: $e");
     } finally {
       isLoading.value = false;
     }
@@ -61,10 +61,10 @@ class UserController extends GetxController {
           await userDoc.update(user.toJson());
         }
       } else {
-        print('error in user $userName');
+        GetSnackBar(message:'error in user $userName');
       }
     } catch (e) {
-      print("Error updating user journey: $e");
+      GetSnackBar(message:"Error updating user journey: $e");
     }
   }
 }

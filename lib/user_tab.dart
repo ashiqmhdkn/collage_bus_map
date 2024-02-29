@@ -1,11 +1,11 @@
-import 'package:collage_bus_nufa/admin.dart';
 import 'package:collage_bus_nufa/home.dart';
+import 'package:collage_bus_nufa/payment_message.dart';
+import 'package:collage_bus_nufa/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'settings.dart';
 
-class admin_tab extends StatelessWidget {
-  admin_tab({super.key});
+class user_tab extends StatelessWidget {
+  user_tab({super.key});
 
   RxInt currentPageIndex = 1.obs;
   changePageIndex(int index) {
@@ -24,8 +24,12 @@ class admin_tab extends StatelessWidget {
                 label: "Profile",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.admin_panel_settings_outlined),
-                label: "Admin",
+                icon: Icon(Icons.home),
+                label: "Home",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.message),
+                label: "Messages",
               ),
             ],
             currentIndex: currentPageIndex.value,
@@ -59,12 +63,13 @@ class admin_tab extends StatelessWidget {
             index: currentPageIndex.value,
             children: [
               Settings(),
-              Admin(),
+              Home(),
+              payment_message(),
             ],
           );
         }),
       ),
     );
+    ;
   }
 }
-

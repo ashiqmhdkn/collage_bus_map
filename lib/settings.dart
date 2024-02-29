@@ -1,5 +1,3 @@
-import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
-import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'login.dart';
@@ -73,8 +71,8 @@ class _SettingsState extends State<Settings> {
                   ),
           ),
           ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text("Notifications"),
+            leading: Icon(Icons.edit),
+            title: Text("Edit Profile"),
             trailing: Icon(Icons.arrow_forward_ios),
           ),
           ListTile(

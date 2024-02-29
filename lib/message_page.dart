@@ -1,4 +1,6 @@
+import 'package:collage_bus_nufa/show_feedback.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(MyApp());
@@ -56,7 +58,7 @@ class MessagePage extends StatelessWidget {
       subtitle: Text("Phone: ${person["phone"]}"),
       trailing: IconButton(
         icon: Icon(Icons.message),
-        onPressed: () => _sendSMS(person["phone"]!, context),
+        onPressed: () => Get.to(show_feedback()),
       ),
     );
   }

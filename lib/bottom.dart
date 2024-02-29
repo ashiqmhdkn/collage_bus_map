@@ -1,4 +1,3 @@
-
 import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:collage_bus_nufa/parent.dart';
 import 'package:flutter/material.dart';
@@ -50,12 +49,20 @@ class bottom extends StatelessWidget {
                       },
                       child: Text("Cancel")),
                   ElevatedButton(
-                      onPressed: () {
-                        userController.updateUserJourney(
-                          newJourney:
-                              Journey(date: date, entry: true, exit: false),
-                          userName: user.name,
-                        );
+                      onPressed: () async {
+                        if (int.parse(Time.value) < 12) {
+                          await userController.updateUserJourney(
+                            newJourney:
+                                Journey(date: date, entry: true, exit: false),
+                            userName: user.name,
+                          );
+                        } else {
+                          await userController.updateUserJourney(
+                            newJourney:
+                                Journey(date: date, exit: true),
+                            userName: user.name,
+                          );
+                        }
                         Get.back();
                       },
                       child: Text("InBus")),

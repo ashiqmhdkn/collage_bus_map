@@ -1,3 +1,4 @@
+import 'package:collage_bus_nufa/updateusers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'login.dart';
@@ -74,6 +75,9 @@ class _SettingsState extends State<Settings> {
             leading: Icon(Icons.edit),
             title: Text("Edit Profile"),
             trailing: Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Get.to(update_parent());
+            },
           ),
           ListTile(
             leading: Icon(Icons.feed),
@@ -96,27 +100,28 @@ class _SettingsState extends State<Settings> {
             title: Text("Logout"),
             onTap: () {
               Get.defaultDialog(
-      title: "Logout",
-      middleText: "Are you sure you want to logout?",
-      actions: [
-        TextButton(
-          onPressed: () {
-            Get.back(); // Close the dialog
-          },
-          child: Text("Cancel"),
-        ),
-        TextButton(
-          onPressed: () async {
-            // Clear user session
-            SharedPreferences sp = await SharedPreferences.getInstance();
-            await sp.clear();
-            // Navigate back to the login screen
-            Get.offAll(() => Login());
-          },
-          child: Text("Logout"),
-        ),
-      ],
-    );
+                title: "Logout",
+                middleText: "Are you sure you want to logout?",
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Get.back(); // Close the dialog
+                    },
+                    child: Text("Cancel"),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      // Clear user session
+                      SharedPreferences sp =
+                          await SharedPreferences.getInstance();
+                      await sp.clear();
+                      // Navigate back to the login screen
+                      Get.offAll(() => Login());
+                    },
+                    child: Text("Logout"),
+                  ),
+                ],
+              );
             },
           ),
         ],

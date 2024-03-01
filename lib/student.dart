@@ -43,7 +43,8 @@ class student extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+                        IconButton(onPressed: () {usersc.deleteUser(
+                                  usersc.users[index].name!);}, icon: Icon(Icons.delete)),
                         IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
                       ],
                     ),

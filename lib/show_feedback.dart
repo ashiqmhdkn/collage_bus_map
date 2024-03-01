@@ -14,7 +14,7 @@ class _show_feedbackState extends State<show_feedback> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Feedback"),
+          title: Text('user.name'),
         ),
         body: StreamBuilder(
           stream: _firestore

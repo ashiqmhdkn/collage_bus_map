@@ -14,12 +14,15 @@ class AttendanceTable extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Attendance Table")),
       body: SafeArea(
-        child: DataTable2(
-          columnSpacing: 12,
-          horizontalMargin: 12,
-          minWidth: 600,
-          columns: _buildColumns(),
-          rows: _buildRows(),
+        child: Padding(
+          padding: const EdgeInsets.all(3),
+          child: DataTable2(
+            columnSpacing: 12,
+            horizontalMargin: 12,
+            minWidth: 600,
+            columns: _buildColumns(),
+            rows: _buildRows(),
+          ),
         ),
       ),
     );
@@ -39,16 +42,25 @@ class AttendanceTable extends StatelessWidget {
           style: TextStyle(color: Color.fromARGB(255, 15, 5, 73)),
         ),
       ),
+      // usersc.users.forEach((user) {
+      //   user.journeys!.forEach((journey) {
+      //     return DataColumn(
+      //       label: Text(
+      //         journey.date!,
+      //         style: TextStyle(color: Color.fromARGB(255, 15, 5, 73)),
+      //       ),
+      //     );
+      //   });
+      // }),
     ];
 
     // Add date columns dynamically
     usersc.users.forEach((user) {
-      user.journeys?.forEach((journey) {
-        String date = journey.date ?? "Date not available";
+      user.journeys!.forEach((journey) {
         columns.add(
           DataColumn(
             label: Text(
-              date,
+              journey.date!,
               style: TextStyle(color: Color.fromARGB(255, 15, 5, 73)),
             ),
           ),
@@ -57,41 +69,38 @@ class AttendanceTable extends StatelessWidget {
     });
 
     return columns;
+
   }
 
- List<DataRow> _buildRows() {
-  List<DataRow> rows = [];
+  List<DataRow> _buildRows() {
+    List<DataRow> rows = [];
 
-  // Generate rows for each user
-  usersc.users.forEach((user) {
-    String userName = user.name !;
+    // Generate rows for each user
+    usersc.users.forEach((user) {
+      user.journeys!.forEach((journey) {
+        List<DataCell> cells = [
+          DataCell(Text(user.name!)),
+          DataCell(Column(
+            children: [
+              Text("M"),
+              Text("E"),
+            ],
+          )),
+        ];
 
-    user.journeys!.forEach((journey) {
-      List<DataCell> cells = [
-        DataCell(Text(userName)),
-        DataCell(Column(
-          children: [
-            Text("M"),
-            Text("E"),
-          ],
-        )),
-      ];
+        // // Add attendance data cells for this journey
+        // String date = journey.date ?? "Date not available";
+        // cells.add(DataCell(Text(date)));
 
-      // Add attendance data cells for this journey
-      String date = journey.date ?? "Date not available";
-      cells.add(DataCell(Text(date)));
-
-      bool entry = journey.entry ?? false;
-      bool exit = journey.exit ?? false;
-      cells.add(DataCell(present(entry, exit)));
-
-      rows.add(DataRow(cells: cells));
+        bool entry = journey.entry ?? false;
+        bool exit = journey.exit ?? false;
+        cells.add(DataCell(present(entry, exit)));
+        rows.add(DataRow(cells: cells));
+      });
     });
-  });
 
-  return rows;
-}
-
+    return rows;
+  }
 
   Widget present(bool entry, bool exit) {
     return entry && !exit

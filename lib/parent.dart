@@ -2,7 +2,7 @@ import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import './controllers/models/usercontrol.dart';
+import 'controllers/usercontrol.dart';
 
 class parent extends StatefulWidget {
   parent({super.key});

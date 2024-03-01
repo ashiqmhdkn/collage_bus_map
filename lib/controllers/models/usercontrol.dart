@@ -61,6 +61,7 @@ class UserController extends GetxController {
     }
   }
 
+
   Future<void> fetchUsers() async {
     try {
       isLoading.value = true;
@@ -112,4 +113,22 @@ class UserController extends GetxController {
       GetSnackBar(message: "Error updating user journey: $e");
     }
   }
+   Future<User?> getUserByName(String name) async {
+    try {
+      // Query the "users" collection where 'name' field is equal to the provided name
+      final QuerySnapshot<Object?> snapshot =
+          await _usersCollection.where('name', isEqualTo: name).get();
+
+      // If there's a user with the provided name, convert the document snapshot to a User object using fromJson()
+      if (snapshot.docs.isNotEmpty) {
+        return User.fromJson(snapshot.docs.first.data() as Map<String, dynamic>);
+      }
+    } on FirebaseException catch (e) {
+      // Handle errors appropriately
+      print("Error: $e");
+    }
+
+    return null; // Return null if no user is found with the provided name
+  }
+
 }

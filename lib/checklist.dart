@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
 
-
 class Checklist extends StatelessWidget {
   final UserController userController = Get.put(UserController());
   // Initialize UserController
@@ -19,9 +18,11 @@ class Checklist extends StatelessWidget {
             "CheckList",
             style: TextStyle(fontSize: 20),
           ),
-          trailing: IconButton(onPressed: () {
-              Get.off(search());
-          }, icon: Icon(Icons.search)),
+          trailing: IconButton(
+              onPressed: () {
+                 Get.off(search());
+              },
+              icon: Icon(Icons.search)),
         ),
         automaticallyImplyLeading: false,
       ),
@@ -43,20 +44,6 @@ class Checklist extends StatelessWidget {
                       Get.bottomSheet(
                         bottom(user: user),
                       );
-                      // Get.bottomSheet(
-                      //   Column(
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     children: user.journeys != null
-                      //         ? user.journeys!.map((journey) {
-                      //             return ListTile(
-                      //               title: Text("Date: ${journey.date}"),
-                      //               subtitle: Text(
-                      //                   "Entry: ${journey.entry}, Exit: ${journey.exit}"),
-                      //             );
-                      //           }).toList()
-                      //         : [Text("No journeys recorded")],
-                      //   ),
-                      // );
                     },
                   ),
                   const Divider(),
@@ -69,4 +56,3 @@ class Checklist extends StatelessWidget {
     );
   }
 }
-

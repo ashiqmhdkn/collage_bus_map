@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'user.dart'; // Ensure this path is correct
+import 'models/user.dart'; // Ensure this path is correct
 
 class UserController extends GetxController {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -22,14 +22,12 @@ class UserController extends GetxController {
         GetSnackBar(message: "Error: name is null");
         return;
       }
-
       await _usersCollection.doc().set(user.toJson());
     } catch (e) {
       GetSnackBar(message: "Error creating user: $e");
     }
   }
-
-  Future<void> updateUser(String userName, User user) async {
+   Future<void> updateUser(String userName, User user) async {
     try {
       if (user.name == null) {
         GetSnackBar(message: "Error: name is null");
@@ -60,7 +58,23 @@ class UserController extends GetxController {
       print("Error: $e");
     }
   }
+ Future<User?> getUserByName(String name) async {
+    try {
+      // Query the "users" collection where 'name' field is equal to the provided name
+      final QuerySnapshot<Object?> snapshot =
+          await _usersCollection.where('name', isEqualTo: name).get();
 
+      // If there's a user with the provided name, convert the document snapshot to a User object using fromJson()
+      if (snapshot.docs.isNotEmpty) {
+        return User.fromJson(snapshot.docs.first.data() as Map<String, dynamic>);
+      }
+    } on FirebaseException catch (e) {
+      // Handle errors appropriately
+      print("Error: $e");
+    }
+
+    return null; // Return null if no user is found with the provided name
+  }
 
   Future<void> fetchUsers() async {
     try {
@@ -113,22 +127,4 @@ class UserController extends GetxController {
       GetSnackBar(message: "Error updating user journey: $e");
     }
   }
-   Future<User?> getUserByName(String name) async {
-    try {
-      // Query the "users" collection where 'name' field is equal to the provided name
-      final QuerySnapshot<Object?> snapshot =
-          await _usersCollection.where('name', isEqualTo: name).get();
-
-      // If there's a user with the provided name, convert the document snapshot to a User object using fromJson()
-      if (snapshot.docs.isNotEmpty) {
-        return User.fromJson(snapshot.docs.first.data() as Map<String, dynamic>);
-      }
-    } on FirebaseException catch (e) {
-      // Handle errors appropriately
-      print("Error: $e");
-    }
-
-    return null; // Return null if no user is found with the provided name
-  }
-
 }

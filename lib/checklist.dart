@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:collage_bus_nufa/controllers/models/user.dart';
-import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
+import 'package:collage_bus_nufa/controllers/usercontrol.dart';
 
 class Checklist extends StatelessWidget {
   final UserController userController = Get.put(UserController());

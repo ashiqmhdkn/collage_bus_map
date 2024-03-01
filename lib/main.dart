@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:collage_bus_nufa/admin_tab.dart';
-import 'package:collage_bus_nufa/controllers/models/authController.dart';
-import 'package:collage_bus_nufa/controllers/models/usercontrol.dart';
+import 'package:collage_bus_nufa/controllers/authController.dart';
+import 'package:collage_bus_nufa/controllers/usercontrol.dart';
+import 'package:collage_bus_nufa/controllers/table_countroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,13 +16,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure plugins are initialized
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ).then((value) => Get.put(authController()));
+  ).then((value) {
+    Get.put(authController());
+    Get.put(UserController());
+    Get.put(TableController());
+  });
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,6 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blue,
       ),
       home: const InitialScreen(),
-
     );
   }
 }
@@ -41,7 +44,7 @@ class InitialScreen extends StatefulWidget {
 
   @override
   State<InitialScreen> createState() => _InitialScreenState();
-} 
+}
 
 class _InitialScreenState extends State<InitialScreen> {
   @override
@@ -66,7 +69,7 @@ class _InitialScreenState extends State<InitialScreen> {
         Get.offAll(apar());
       }
     } else {
-    Get.offAll( Login());
+      Get.offAll(Login());
     }
   }
 

@@ -25,6 +25,7 @@ class UserController extends GetxController {
         return;
       }
       await _usersCollection.doc().set(user.toJson());
+      allUsers.add(user);
     } catch (e) {
       GetSnackBar(message: "Error creating user: $e");
     }
@@ -81,11 +82,13 @@ class UserController extends GetxController {
     return null; // Return null if no user is found with the provided name
   }
 
-  Future<void> fetchUsers() async {
-    try {
-      isLoading.value = true;
-      final QuerySnapshot<Object?> snapshot = await _usersCollection.get();
-       allUsers .assignAll(snapshot.docs
+ Future<void> fetchUsers() async {
+  try {
+    isLoading.value = true;
+
+    // Use a real-time listener to listen for changes in the users collection
+    _usersCollection.snapshots().listen((QuerySnapshot snapshot) {
+      allUsers.assignAll(snapshot.docs
           .map((doc) => User.fromJson(doc.data() as Map<String, dynamic>))
           .toList());
       List<User> allTeachers =
@@ -94,12 +97,15 @@ class UserController extends GetxController {
           allUsers.where((user) => user.usertype == null).toList();
       users.assignAll(allRegularUsers);
       teachers.assignAll(allTeachers);
-    } catch (e) {
-      GetSnackBar(message: "Error fetching users: $e");
-    } finally {
-      isLoading.value = false;
-    }
+    });
+
+  } catch (e) {
+    GetSnackBar(message: "Error fetching users: $e");
+  } finally {
+    isLoading.value = false;
   }
+}
+
 
   Future<void> updateUserJourney(
       {required Journey newJourney, String? userName}) async {

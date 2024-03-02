@@ -32,19 +32,19 @@ class student extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           } else {
             return ListView.builder(
-              itemCount: usersc.users.length,
+              itemCount: usersc.teachers.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(usersc.users[index].name!),
+                  title: Text(usersc.teachers[index].name!),
                   subtitle:
-                      Text(usersc.users[index].password ?? 'notavailable'),
+                      Text(usersc.teachers[index].password ?? 'notavailable'),
                   trailing: Container(
                     width: 100,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(onPressed: () {usersc.deleteUser(
-                                  usersc.users[index].name!);}, icon: Icon(Icons.delete)),
+                                  usersc.teachers[index].name!);}, icon: Icon(Icons.delete)),
                         IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
                       ],
                     ),

@@ -16,7 +16,6 @@ class _ChecklistState extends State<Checklist> {
 
   // Initialize UserController
   bool _isSearching = false;
-
   TextEditingController _searchController = TextEditingController();
 
   @override

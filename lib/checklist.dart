@@ -6,26 +6,29 @@ import 'package:get/get.dart';
 import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:collage_bus_nufa/controllers/usercontrol.dart';
 
-class Checklist extends StatelessWidget {
+class Checklist extends StatefulWidget {
+  @override
+  State<Checklist> createState() => _ChecklistState();
+}
+
+class _ChecklistState extends State<Checklist> {
   final UserController userController = Get.put(UserController());
+
   // Initialize UserController
+  bool _isSearching = false;
+
+  TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: ListTile(
-          title: Text(
-            "CheckList",
-            style: TextStyle(fontSize: 20),
-          ),
-          trailing: IconButton(
-              onPressed: () {
-                 Get.off(search());
-              },
-              icon: Icon(Icons.search)),
+        appBar:PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: AnimatedSwitcher(
+          duration: Duration(milliseconds: 300),
+          child: _isSearching ? _buildSearchAppBar() : _buildRegularAppBar(),
         ),
-        automaticallyImplyLeading: false,
-      ),
+      ), 
       body: Obx(() {
         // Use Obx here to listen to changes in UserController
         if (userController.isLoading.isTrue) {
@@ -55,4 +58,49 @@ class Checklist extends StatelessWidget {
       }),
     );
   }
+  AppBar _buildRegularAppBar() {
+    return AppBar(
+      title: Text('CheckList'),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            setState(() {
+              _isSearching = true;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  AppBar _buildSearchAppBar() {
+    return AppBar(
+      title: TextField(
+        controller: _searchController,
+        decoration: InputDecoration(
+          hintText: 'Search...',
+          border: InputBorder.none,
+        ),
+        autofocus: true,
+        textInputAction: TextInputAction.search,
+        onSubmitted: (value) {
+          // Perform search action here
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            setState(() {
+              _isSearching = false;
+              _searchController.clear();
+            });
+          },
+        ),
+      ],
+    );
+  }
 }
+
+

@@ -144,20 +144,19 @@ class Login extends StatelessWidget {
   Future<void> _handleLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     bool userFound = false;
-    for (var user in usersc.users) {
+    for (var user in usersc.allUsers) {
       if (user.name == _userId.text && user.password == _password.text) {
         sp.setString("Id", _userId.text);
         sp.setString("Pass", _password.text);
         sp.setBool('log', true);
-        
+
         if (user.usertype == 'admin') {
           Get.offAll(admin_tab());
           sp.setBool('adm', true);
-        }
-        else if(user.usertype =='teacher'){
+        } else if (user.usertype == 'teacher') {
           Get.offAll(apar());
-        } 
-        else {
+          sp.setBool('teach', true);
+        } else {
           Get.offAll(user_tab());
         }
       }

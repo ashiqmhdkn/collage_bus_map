@@ -3,6 +3,7 @@ import 'package:collage_bus_nufa/admin_tab.dart';
 import 'package:collage_bus_nufa/controllers/authController.dart';
 import 'package:collage_bus_nufa/controllers/usercontrol.dart';
 import 'package:collage_bus_nufa/controllers/table_countroller.dart';
+import 'package:collage_bus_nufa/user_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,6 +59,7 @@ class _InitialScreenState extends State<InitialScreen> {
     final UserController usercController = UserController();
     bool isLogin = sp.getBool('log') ?? false;
     bool admin = sp.getBool('adm') ?? false;
+    bool teach =sp.getBool('teach')??false;
 
     // Delay added to simulate loading time for Flash screen
     await Future.delayed(const Duration(seconds: 1));
@@ -65,9 +67,12 @@ class _InitialScreenState extends State<InitialScreen> {
     if (isLogin) {
       if (admin) {
         Get.offAll(() => admin_tab());
-      } else {
-        Get.offAll(apar());
       }
+     else if(teach){ Get.offAll(apar());}
+      else{
+Get.offAll(user_tab());
+      }
+      
     } else {
       Get.offAll(Login());
     }

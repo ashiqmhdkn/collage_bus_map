@@ -8,6 +8,8 @@ class UserController extends GetxController {
       FirebaseFirestore.instance.collection('users');
 
   final RxList<User> users = <User>[].obs;
+  final RxList<User> teachers = <User>[].obs;
+  final RxList<User> allUsers = <User>[].obs;
   final RxBool isLoading = true.obs;
 
   @override
@@ -27,7 +29,8 @@ class UserController extends GetxController {
       GetSnackBar(message: "Error creating user: $e");
     }
   }
-   Future<void> updateUser(String userName, User user) async {
+
+  Future<void> updateUser(String userName, User user) async {
     try {
       if (user.name == null) {
         GetSnackBar(message: "Error: name is null");
@@ -58,7 +61,8 @@ class UserController extends GetxController {
       print("Error: $e");
     }
   }
- Future<User?> getUserByName(String name) async {
+
+  Future<User?> getUserByName(String name) async {
     try {
       // Query the "users" collection where 'name' field is equal to the provided name
       final QuerySnapshot<Object?> snapshot =
@@ -66,7 +70,8 @@ class UserController extends GetxController {
 
       // If there's a user with the provided name, convert the document snapshot to a User object using fromJson()
       if (snapshot.docs.isNotEmpty) {
-        return User.fromJson(snapshot.docs.first.data() as Map<String, dynamic>);
+        return User.fromJson(
+            snapshot.docs.first.data() as Map<String, dynamic>);
       }
     } on FirebaseException catch (e) {
       // Handle errors appropriately
@@ -80,9 +85,15 @@ class UserController extends GetxController {
     try {
       isLoading.value = true;
       final QuerySnapshot<Object?> snapshot = await _usersCollection.get();
-      users.assignAll(snapshot.docs
+       allUsers .assignAll(snapshot.docs
           .map((doc) => User.fromJson(doc.data() as Map<String, dynamic>))
           .toList());
+      List<User> allTeachers =
+          allUsers.where((user) => user.usertype == "teacher").toList();
+      List<User> allRegularUsers =
+          allUsers.where((user) => user.usertype == null).toList();
+      users.assignAll(allRegularUsers);
+      teachers.assignAll(allTeachers);
     } catch (e) {
       GetSnackBar(message: "Error fetching users: $e");
     } finally {

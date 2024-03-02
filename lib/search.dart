@@ -6,12 +6,17 @@ class search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      body: Column(
-        children: [
-          CupertinoTextField(),
-        ],
-      ),
-    ),);
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: Text("searchbar"),),
+        body: Container(
+          child: Column(
+            children: [
+              CupertinoTextField()
+            ],
+          ),
+        ),
+      )
+    );
   }
 }

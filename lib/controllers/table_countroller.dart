@@ -35,16 +35,18 @@ class TableController extends GetxController {
 
   List<Journey> addRowsData(user) {
     List<Journey> journeyUser = [];
+    user.journeys!.forEach((journey) {
+      journeyUser.add(journey);
+    });
 
     for (int i = 0; i < listColumnData.length; i++) {
-      user.journeys!.forEach((journey) {
-        journeyUser.add(journey);
-      });
-      print(i);
+      print(listColumnData[i]);
 
       bool present = false;
       journeyUser.forEach((element) {
         if (element.date == listColumnData[i]) {
+          print(element.date);
+         
           present = true;
         }
       });

@@ -34,7 +34,7 @@ class _AttendanceTableState extends State<AttendanceTable> {
         child: DataTable2(
           columnSpacing: 12,
           horizontalMargin: 12,
-          minWidth: 600,
+          minWidth: 800,
           columns: _buildColumns(),
           rows:
               // [],
@@ -67,7 +67,6 @@ class _AttendanceTableState extends State<AttendanceTable> {
           });
 
     return columns;
-
   }
 
   List<DataRow> _buildRows() {
@@ -90,13 +89,20 @@ class _AttendanceTableState extends State<AttendanceTable> {
         ),
       ];
       for (int i = 0; i < table.listColumnData.length; i++) {
-        if (journy1List.length > i) {
-          bool entry = journy1List[i].entry ?? false;
-          bool exit = journy1List[i].exit ?? false;
-          cells.add(DataCell(present(entry, exit)));
-        } else {
-          cells.add(DataCell(present(false, false)));
-        }
+        journy1List.forEach((element) {
+          if (element.date == table.listColumnData[i]) {
+            bool entry = element.entry ?? false;
+            bool exit = element.exit ?? false;
+            cells.add(DataCell(present(entry, exit)));
+          }
+        });
+        // if (journy1List.length > i) {
+        //   bool entry = journy1List[i].entry ?? false;
+        //   bool exit = journy1List[i].exit ?? false;
+        //   cells.add(DataCell(present(entry, exit)));
+        // } else {
+        //   cells.add(DataCell(present(false, false)));
+        // }
       }
 
       rows.add(DataRow(cells: cells));

@@ -37,28 +37,11 @@ class admin_tab extends StatelessWidget {
             },
           ),
         ),
-        //  NavigationBar(
-        //   destinations: [
-        //     NavigationDestination(
-        //       icon: Icon(Icons.account_circle_sharp),
-        //       label: "Profile",
-        //     ),
-        //     NavigationDestination(
-        //       icon: Icon(Icons.admin_panel_settings_outlined),
-        //       label: "Admin",
-        //     )
-        //   ],
-        //   selectedIndex: currentPageIndex.value,
-        //   onDestinationSelected: (int index) {
-        //       currentPageIndex = index as RxInt;
-        //   },
-        //   labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        // ),
         body: Obx(() {
           return IndexedStack(
             index: currentPageIndex.value,
             children: [
-              Settings(),
+              Settings(showEditProfile: false),
               Admin(),
             ],
           );
@@ -67,4 +50,3 @@ class admin_tab extends StatelessWidget {
     );
   }
 }
-

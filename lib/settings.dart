@@ -11,7 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+  final bool showEditProfile;
+  const Settings({Key? key, this.showEditProfile = true}) : super(key: key);
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -74,17 +75,18 @@ class _SettingsState extends State<Settings> {
                     onPressed: _pickImage,
                   ),
           ),
-          ListTile(
-            leading: Icon(Icons.edit),
-            title: Text("Edit Profile"),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () async {
-              SharedPreferences sp = await SharedPreferences.getInstance();
-              String? usernam = sp.getString("Id");
-               User? std = await userController.getUserByName(usernam??'');
-              Get.to(update_parent(std!));
-            },
-          ),
+          if (widget.showEditProfile)
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: Text("Edit Profile"),
+              trailing: Icon(Icons.arrow_forward_ios),
+              onTap: () async {
+                SharedPreferences sp = await SharedPreferences.getInstance();
+                String? usernam = sp.getString("Id");
+                User? std = await userController.getUserByName(usernam ?? '');
+                Get.to(update_parent(std!));
+              },
+            ),
           ListTile(
             leading: Icon(Icons.feed),
             title: Text("Privacy Policy"),
@@ -136,7 +138,7 @@ class _SettingsState extends State<Settings> {
   }
 
   void _showPrivacyPolicyDialog(BuildContext context) {
- showDialog(
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(

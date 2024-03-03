@@ -4,25 +4,31 @@ import 'package:collage_bus_nufa/message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class payment extends StatelessWidget {
+class payment extends StatefulWidget {
   payment({super.key});
 
+  @override
+  State<payment> createState() => _paymentState();
+}
+
+class _paymentState extends State<payment> {
   UserController _userController = Get.put(UserController());
+
+    bool _isSearching = false;
+
+  TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: ListTile(
-            title: Text(
-              "Students",
-              style: TextStyle(fontSize: 20),
-            ),
-            trailing: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-          ),
-          automaticallyImplyLeading: false,
+        appBar:PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: AnimatedSwitcher(
+          duration: Duration(milliseconds: 300),
+          child: _isSearching ? _buildSearchAppBar() : _buildRegularAppBar(),
         ),
+      ), 
         body:Obx(() {
         // Use Obx here to listen to changes in UserController
         if (_userController.isLoading.isTrue) {
@@ -52,5 +58,50 @@ class payment extends StatelessWidget {
       ),
      ),
       );
+      
+  }
+  AppBar _buildRegularAppBar() {
+    return AppBar(
+      title: Text('Students'),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            setState(() {
+              _isSearching = true;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  AppBar _buildSearchAppBar() {
+    return AppBar(
+      title: TextField(
+        controller: _searchController,
+        decoration: InputDecoration(
+          hintText: 'Search...',
+          border: InputBorder.none,
+        ),
+        autofocus: true,
+        textInputAction: TextInputAction.search,
+        onSubmitted: (value) {
+          // Perform search action here
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            setState(() {
+              _isSearching = false;
+              _searchController.clear();
+            });
+          },
+        ),
+      ],
+    );
   }
 }
+ 

@@ -14,7 +14,7 @@ class payment extends StatefulWidget {
 class _paymentState extends State<payment> {
   UserController _userController = Get.put(UserController());
 
-    bool _isSearching = false;
+  bool _isSearching = false;
 
   TextEditingController _searchController = TextEditingController();
 

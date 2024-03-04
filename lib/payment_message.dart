@@ -1,51 +1,46 @@
+import 'package:collage_bus_nufa/controllers/messagecon.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
-class ChatMessage {
-  String messageContent;
-  String messageType;
-  ChatMessage({required this.messageContent, required this.messageType});
-}
-
-List<ChatMessage> messages = [
-  ChatMessage(
-      messageContent:
-          "Hey [Parent's Name], just a friendly reminder about the pending payment we discussed. Please let me know if there are any questions or concerns. Thanks!",
-      messageType: "message"),
-  ChatMessage(messageContent: "2000", messageType: "amount")
-];
+import 'package:get/get.dart';
 
 class payment_message extends StatelessWidget {
-  const payment_message({Key? key});
+  String sent, reciver;
+  payment_message({required this.reciver, required this.sent, Key? key});
+  final FeedbackController fdcon = Get.put(FeedbackController());
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    print(fdcon.feedbackList);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Chatbox"),
+          title: Text(reciver),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: messages.map((message) {
+        body: Container( // Add Container with fixed height
+          height: MediaQuery.of(context).size.height, // Adjust the height as needed
+          child: SingleChildScrollView(
+            child: ListView.builder(
+              itemCount: fdcon.feedbackList.length,
+              itemBuilder: (context, index) {
                 return Container(
                   margin: EdgeInsets.only(bottom: 10),
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: message.messageType == "message"
+                    color: fdcon.feedbackList[index].fee == "message"
                         ? Colors.grey.shade200
                         : Colors.blue[200],
                   ),
-                  child: Text(
-                    message.messageContent,
-                    style: TextStyle(fontSize: 15),
+                  child: ListTile(
+                    leading: Text(
+                      fdcon.feedbackList[index].fee ?? '',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    subtitle: Text(fdcon.feedbackList[index].content ?? ''),
                   ),
                 );
-              }).toList(),
+              },
             ),
           ),
         ),

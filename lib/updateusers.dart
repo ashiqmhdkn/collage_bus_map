@@ -43,7 +43,8 @@ class update_parent extends StatelessWidget {
               TextField(
                 controller: pname,
                 decoration: InputDecoration(
-                  label: Text(user.name??''),
+                  hintText: user.name??'',
+                  label: Text('Name'),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -53,7 +54,8 @@ class update_parent extends StatelessWidget {
               TextField(
                 controller: pAdmissionNo,
                 decoration: InputDecoration(
-                  label: Text(user.admissionNo??''),
+                hintText: user.admissionNo??'',
+                label: Text('Admission No'),
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
@@ -64,7 +66,8 @@ class update_parent extends StatelessWidget {
               TextField(
                 controller: pPhone,
                 decoration: InputDecoration(
-                  label: Text(user.phone??''),
+                  hintText:user.phone??'',
+                  label: Text('Phone'),
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
@@ -78,7 +81,8 @@ class update_parent extends StatelessWidget {
               TextField(
                 controller: pAddress,
                 decoration: InputDecoration(
-                label: Text(user.address??''),
+              hintText:user.address??'',
+              label: Text('location'),
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.text,
@@ -89,7 +93,8 @@ class update_parent extends StatelessWidget {
               TextField(
                 controller: pDob,
                 decoration: InputDecoration(
-                 label: Text(user.password??''),
+                 hintText:user.password??'',
+                 label: Text('Password'),
                   border: OutlineInputBorder(),
                 ),
               ),

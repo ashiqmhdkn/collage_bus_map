@@ -1,23 +1,31 @@
-class feedbackmodel {
-  String? timestamp;
-  String? feedback;
-  String? username;
+class feedback {
+  final String? senderId;
+  final String? receiverId;
+  final String? content;
+  final String? fee;
 
-   feedbackmodel({this.timestamp, this.username, this.feedback});
+  feedback({
+     this.senderId,
+     this.receiverId,
+     this.content,
+     this.fee,
+  });
 
-   factory feedbackmodel.fromJson(Map<String, dynamic> json) {
-    return feedbackmodel(
-      timestamp: json['timestamp'],
-      feedback: json['feedback'],
-      username: json['username'],
-    );
-  }
-  
   Map<String, dynamic> toJson() {
     return {
-      'timestamp': timestamp,
-      'feedback': feedbackmodel,
-      'username': username,
+      'senderId': senderId,
+      'receiverId': receiverId,
+      'content': content,
+      'fee': fee,
     };
+  }
+
+  factory feedback.fromJson(Map<String, dynamic> json) {
+    return feedback(
+      senderId: json['senderId'],
+      receiverId: json['receiverId'],
+      content: json['content'],
+      fee: json['fee'],
+    );
   }
 }

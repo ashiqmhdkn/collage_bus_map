@@ -27,10 +27,6 @@ class user_tab extends StatelessWidget {
                 icon: Icon(Icons.home),
                 label: "Home",
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.message),
-                label: "Messages",
-              ),
             ],
             currentIndex: currentPageIndex.value,
             selectedLabelStyle: TextStyle(color: Colors.black),
@@ -47,7 +43,6 @@ class user_tab extends StatelessWidget {
             children: [
               Settings(),
               Home(),
-              payment_message(),
             ],
           );
         }),

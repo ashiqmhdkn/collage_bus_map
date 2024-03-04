@@ -1,19 +1,24 @@
+import 'package:collage_bus_nufa/controllers/messagecon.dart';
+import 'package:collage_bus_nufa/controllers/models/feedbackmodel.dart';
 import 'package:collage_bus_nufa/controllers/usercontrol.dart';
 import 'package:collage_bus_nufa/payment_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class message extends StatelessWidget {
   String name;
   message({super.key, required this.name});
-  
+
   final UserController userController = Get.put(UserController());
+
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController messageController= TextEditingController(); 
-    TextEditingController paymentController= TextEditingController(); 
+    TextEditingController messageController = TextEditingController();
+    TextEditingController paymentController = TextEditingController();
+         final FeedbackController fdcon = Get.put(FeedbackController());
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -55,12 +60,10 @@ class message extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     child: Text('Send'),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => payment_message(),
-                      ),
-                    );
+                  onPressed: () async{
+                      SharedPreferences sp = await SharedPreferences.getInstance();
+            String sent=sp.getString('Id')??'';
+                      fdcon.submitFeedback(feedback(senderId: name,receiverId:sent ,content:messageController.text ,fee:paymentController.text ));
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('message deliverd')),
                     );

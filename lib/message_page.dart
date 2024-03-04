@@ -1,11 +1,13 @@
+import 'package:collage_bus_nufa/controllers/messagecon.dart';
 import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:collage_bus_nufa/controllers/usercontrol.dart';
 import 'package:collage_bus_nufa/parent.dart';
+import 'package:collage_bus_nufa/payment_message.dart';
 import 'package:collage_bus_nufa/show_feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -24,6 +26,7 @@ class MessagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserController userController = Get.put(UserController());
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Quick Messages"),
@@ -45,9 +48,12 @@ class MessagePage extends StatelessWidget {
       title: Text(person.name!),
       subtitle: Text("Phone: ${person.phone}"),
       trailing: IconButton(
-        icon: Icon(Icons.message),
-        onPressed: () => Get.to(show_feedback()),
-      ),
+          icon: Icon(Icons.message),
+          onPressed: () async {
+            SharedPreferences sp = await SharedPreferences.getInstance();
+            String sent=sp.getString('Id')??'';
+            Get.to(payment_message(sent: sent, reciver: person.name??'',));
+          }),
     );
   }
 }

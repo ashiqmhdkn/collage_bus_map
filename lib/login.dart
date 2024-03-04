@@ -161,7 +161,7 @@ class Login extends StatelessWidget {
         }
       }
     }
-    if (userFound!) {
+    if (!userFound) {
       GetSnackBar(message: "Invalid username or password");
       print("not availablein db username or password");
     }

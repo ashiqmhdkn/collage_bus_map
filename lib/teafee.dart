@@ -13,12 +13,11 @@ class message extends StatelessWidget {
 
   final UserController userController = Get.put(UserController());
 
-
   @override
   Widget build(BuildContext context) {
     TextEditingController messageController = TextEditingController();
     TextEditingController paymentController = TextEditingController();
-         final FeedbackController fdcon = Get.put(FeedbackController());
+    final FeedbackController fdcon = Get.put(FeedbackController());
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -60,13 +59,19 @@ class message extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     child: Text('Send'),
                   ),
-                  onPressed: () async{
-                      SharedPreferences sp = await SharedPreferences.getInstance();
-            String sent=sp.getString('Id')??'';
-                      fdcon.submitFeedback(feedback(senderId: name,receiverId:sent ,content:messageController.text ,fee:paymentController.text ));
+                  onPressed: () async {
+                    SharedPreferences sp =
+                        await SharedPreferences.getInstance();
+                    String sent = sp.getString('Id') ?? '';
+                    fdcon.submitFeedback(feedback(
+                        senderId: sent,
+                        receiverId: name,
+                        content: messageController.text,
+                        fee: paymentController.text));
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('message deliverd')),
                     );
+                    Get.back();
                   },
                 ),
               ],

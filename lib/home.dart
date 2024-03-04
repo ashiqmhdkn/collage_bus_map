@@ -1,9 +1,11 @@
+import 'package:collage_bus_nufa/controllers/messagecon.dart';
 import 'package:collage_bus_nufa/map.dart';
 import 'package:collage_bus_nufa/show_feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'locationmap.dart';
 import 'message_page.dart';
 import 'package:location/location.dart';
@@ -34,6 +36,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FeedbackController msg = Get.put(FeedbackController());
     return SafeArea(
       child: Scaffold(
         body: FutureBuilder<LocationData?>(
@@ -53,15 +56,21 @@ class Home extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        SharedPreferences sp =
+                            await SharedPreferences.getInstance();
+                        String currentUser = sp.getString('Id') ?? '';
+                        await msg.fetchFeedback(receiverId: currentUser);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MessagePage()),
+                              builder: (context) => MessagePage(
+                                    currentUser: currentUser,
+                                  )),
                         );
                       },
                       child: ListTile(
-                        title: Text("Quick Message"),
+                        title: Text("Message"),
                         trailing: Icon(Icons.arrow_forward_ios),
                       ),
                     ),

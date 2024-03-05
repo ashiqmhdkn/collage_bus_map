@@ -63,7 +63,7 @@ class message extends StatelessWidget {
                   onPressed: () async{
                       SharedPreferences sp = await SharedPreferences.getInstance();
             String sent=sp.getString('Id')??'';
-                      fdcon.submitFeedback(feedback(senderId: name,receiverId:sent ,content:messageController.text ,fee:paymentController.text ));
+                      fdcon.submitFeedback(feedback(senderId: sent,receiverId:name ,content:messageController.text ,fee:paymentController.text ));
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('message deliverd')),
                     );

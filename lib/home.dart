@@ -36,6 +36,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        
         body: FutureBuilder<LocationData?>(
           future: checkLocationService(),
           builder: (context, snapshot) {
@@ -61,7 +62,7 @@ class Home extends StatelessWidget {
                         );
                       },
                       child: ListTile(
-                        title: Text("Quick Message"),
+                        title: Text("Fees pendting"),
                         trailing: Icon(Icons.arrow_forward_ios),
                       ),
                     ),

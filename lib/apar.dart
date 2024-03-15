@@ -35,10 +35,7 @@ class _aparState extends State<apar> {
               icon: Icon(Icons.account_circle_sharp),
               label: "Profile",
             ),
-              NavigationDestination(
-              icon: Icon(Icons.circle),
-              label: "Asd",
-            ),
+             
           ],
           selectedIndex: currentPageIndex,
           onDestinationSelected: (int index) {
@@ -53,7 +50,6 @@ class _aparState extends State<apar> {
           Checklist(),
           payment(),
           Settings(),
-          Admin(),
         ][currentPageIndex],
       ),
     );

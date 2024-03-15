@@ -195,7 +195,7 @@ When it comes to legal documents, it is best not to take chances. Fortunately, i
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "Nufa,Rinshad,Najih,",
+                  "Nufa,Rinshad,Naji,Thanha",
                 ),
                 SizedBox(height: 8),
                 Text(

@@ -1,9 +1,12 @@
+import 'package:collage_bus_nufa/controllers/location.dart';
+import 'package:collage_bus_nufa/controllers/messagecon.dart';
 import 'package:collage_bus_nufa/map.dart';
 import 'package:collage_bus_nufa/show_feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'locationmap.dart';
 import 'message_page.dart';
 import 'package:location/location.dart';
@@ -11,62 +14,36 @@ import 'package:location/location.dart';
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
 
-  final Location location = Location();
-
-  Future<LocationData?> checkLocationService() async {
-    bool serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return null;
-      }
-    }
-    PermissionStatus permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return null;
-      }
-    }
-
-    return await location.getLocation();
-  }
-
   @override
   Widget build(BuildContext context) {
+   
+    final LocationController locationController = Get.put(LocationController());
+                           
     return SafeArea(
       child: Scaffold(
-        
-        body: FutureBuilder<LocationData?>(
-          future: checkLocationService(),
+        body: FutureBuilder<void>(
+          future: locationController.fetchLocationData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
-            } else if (snapshot.error != null || snapshot.data == null) {
+            } else if (snapshot.error != null) {
               return Center(child: Text('Failed to get location'));
             } else {
               return Column(
                 children: [
                   Expanded(
-                    flex: 10,
-                    child: LocationMap(locationData: snapshot.data),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MessagePage()),
-                        );
-                      },
-                      child: ListTile(
-                        title: Text("Fees pendting"),
-                        trailing: Icon(Icons.arrow_forward_ios),
-                      ),
-                    ),
-                  ),
+                      flex: 10,
+                      child: Obx(() {
+                       LocationData? locationData = locationController.locationData.value;
+                    if (locationData != null) {
+                      // Access locationData's properties here
+                      double latitude = 10.902752012224196;
+                      double longitude = 76.12170400178304;
+                        }
+                        return LocationMap(
+                            locationData:locationData);
+                      })),
+                bottomWidget(),
                 ],
               );
             }
@@ -74,5 +51,64 @@ class Home extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+Widget bottomWidget() {
+   final FeedbackController msg = Get.put(FeedbackController());
+   final LocationController locationController = Get.put(LocationController());
+  return FutureBuilder<String?>(
+    future: getUserType(),
+    builder: (context, snapshot) {
+        if (snapshot.data == 'teacher') {
+          return Expanded(
+            flex: 1,
+            child: ListTile(
+              title: Text("Live Location"),
+              trailing: Obx(() {
+                return Switch(
+                  value: locationController.teacher.value,
+                  onChanged: (value) {
+                    locationController.toggleTeacher();
+                  },
+                );
+              }),
+            ),
+          );
+        } else {
+          return Expanded(
+            flex: 1,
+            child: GestureDetector(
+              onTap: () async {
+                SharedPreferences sp = await SharedPreferences.getInstance();
+                String currentUser = sp.getString('Id') ?? '';
+                await msg.fetchFeedback(receiverId: currentUser);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MessagePage(
+                      currentUser: currentUser,
+                    ),
+                  ),
+                );
+              },
+              child: ListTile(
+                title: Text("Message"),
+                trailing: Icon(Icons.arrow_forward_ios),
+              ),
+            ),
+          );
+        
+      }
+    },
+  );
+}
+
+Future<String?> getUserType() async {
+  SharedPreferences sp = await SharedPreferences.getInstance();
+  bool? userType = sp.getBool('teach')??false;
+  if (userType == null) {
+    return null; // User
+  } else {
+    return 'teacher'; // Teacher
   }
 }

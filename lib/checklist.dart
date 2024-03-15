@@ -41,7 +41,7 @@ class _ChecklistState extends State<Checklist> {
                 children: [
                   ListTile(
                     title: Text(user.name ?? "Unknown"),
-                    subtitle: Text("Admission No: ${user.password}"),
+                    subtitle: Text("Admission No: ${user.admissionNo}"),
                     onTap: () {
                       Get.bottomSheet(
                         bottom(user: user),

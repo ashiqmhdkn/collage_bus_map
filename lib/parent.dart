@@ -45,7 +45,7 @@ class parentState extends State<parent> {
                 return ListTile(
                   title: Text(userController.users[index].name!),
                   subtitle:
-                      Text(userController.users[index].password ?? 'what'),
+                      Text(userController.users[index].admissionNo ?? 'what'),
                   trailing: Container(
                     width: 100,
                     child: Row(

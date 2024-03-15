@@ -1,6 +1,7 @@
 import 'package:collage_bus_nufa/controllers/models/feedbackmodel.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FeedbackController extends GetxController {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -13,7 +14,8 @@ class FeedbackController extends GetxController {
 // Fetch feedback messages on initialization
   }
 
-  Future<void> fetchFeedback(String reciver, {String? senderId, String? receiverId}) async {
+  Future<void> fetchFeedback({String? senderId, String? receiverId}) async {
+   
     try {
       QuerySnapshot querySnapshot;
       if (senderId != null && receiverId != null) {
@@ -33,8 +35,7 @@ class FeedbackController extends GetxController {
             .where('receiverId', isEqualTo: receiverId)
             .get();
       } else {
-        querySnapshot =
-            await _firebaseFirestore.collection('feedback').get();
+        querySnapshot = await _firebaseFirestore.collection('feedback').get();
       }
       feedbackList.assignAll(querySnapshot.docs
           .map((doc) => feedback.fromJson(doc.data() as Map<String, dynamic>))
@@ -46,9 +47,7 @@ class FeedbackController extends GetxController {
 
   Future<void> submitFeedback(feedback feedback) async {
     try {
-      await _firebaseFirestore
-          .collection('feedback')
-          .add(feedback.toJson());
+      await _firebaseFirestore.collection('feedback').add(feedback.toJson());
     } catch (e) {
       print("Error submitting feedback: $e");
     }

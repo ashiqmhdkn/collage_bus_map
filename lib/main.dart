@@ -60,7 +60,7 @@ class _InitialScreenState extends State<InitialScreen> {
     bool isLogin = sp.getBool('log') ?? false;
     bool admin = sp.getBool('adm') ?? false;
     bool teach =sp.getBool('teach')??false;
-
+  
     // Delay added to simulate loading time for Flash screen
     await Future.delayed(const Duration(seconds: 1));
 

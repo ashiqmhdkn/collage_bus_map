@@ -1,19 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Quick Messages',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MessagePage(),
-    );
-  }
-}
-
 class MessagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

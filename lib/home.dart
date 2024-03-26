@@ -16,9 +16,8 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     final LocationController locationController = Get.put(LocationController());
-                           
+
     return SafeArea(
       child: Scaffold(
         body: FutureBuilder<void>(
@@ -34,16 +33,17 @@ class Home extends StatelessWidget {
                   Expanded(
                       flex: 10,
                       child: Obx(() {
-                       LocationData? locationData = locationController.locationData.value;
-                    if (locationData != null) {
-                      // Access locationData's properties here
-                      double latitude = 10.902752012224196;
-                      double longitude = 76.12170400178304;
+                        LocationData? locationData =
+                            locationController.locationData.value;
+
+                        if (locationData != null) {
+                          // Access locationData's properties here
+                          double latitude = 10.902752012224196;
+                          double longitude = 76.12170400178304;
                         }
-                        return LocationMap(
-                            locationData:locationData);
+                        return LocationMap(locationData: locationData);
                       })),
-                bottomWidget(),
+                  bottomWidget(),
                 ],
               );
             }
@@ -53,51 +53,51 @@ class Home extends StatelessWidget {
     );
   }
 }
+
 Widget bottomWidget() {
-   final FeedbackController msg = Get.put(FeedbackController());
-   final LocationController locationController = Get.put(LocationController());
+  final FeedbackController msg = Get.put(FeedbackController());
+  final LocationController locationController = Get.put(LocationController());
   return FutureBuilder<String?>(
     future: getUserType(),
     builder: (context, snapshot) {
-        if (snapshot.data == 'teacher') {
-          return Expanded(
-            flex: 1,
-            child: ListTile(
-              title: Text("Live Location"),
-              trailing: Obx(() {
-                return Switch(
-                  value: locationController.teacher.value,
-                  onChanged: (value) {
-                    locationController.toggleTeacher();
-                  },
-                );
-              }),
-            ),
-          );
-        } else {
-          return Expanded(
-            flex: 1,
-            child: GestureDetector(
-              onTap: () async {
-                SharedPreferences sp = await SharedPreferences.getInstance();
-                String currentUser = sp.getString('Id') ?? '';
-                await msg.fetchFeedback(receiverId: currentUser);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MessagePage(
-                      currentUser: currentUser,
-                    ),
+      if (snapshot.data == 'teacher') {
+        return Expanded(
+          flex: 1,
+          child: ListTile(
+            title: Text("Live Location"),
+            trailing: Obx(() {
+              return Switch(
+                value: locationController.teacher.value,
+                onChanged: (value) {
+                  locationController.toggleTeacher();
+                },
+              );
+            }),
+          ),
+        );
+      } else {
+        return Expanded(
+          flex: 1,
+          child: GestureDetector(
+            onTap: () async {
+              SharedPreferences sp = await SharedPreferences.getInstance();
+              String currentUser = sp.getString('Id') ?? '';
+              await msg.fetchFeedback(receiverId: currentUser);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MessagePage(
+                    currentUser: currentUser,
                   ),
-                );
-              },
-              child: ListTile(
-                title: Text("Message"),
-                trailing: Icon(Icons.arrow_forward_ios),
-              ),
+                ),
+              );
+            },
+            child: ListTile(
+              title: Text("Message"),
+              trailing: Icon(Icons.arrow_forward_ios),
             ),
-          );
-        
+          ),
+        );
       }
     },
   );
@@ -105,8 +105,8 @@ Widget bottomWidget() {
 
 Future<String?> getUserType() async {
   SharedPreferences sp = await SharedPreferences.getInstance();
-  bool? userType = sp.getBool('teach')??false;
-  if (userType == null) {
+  bool? userType = sp.getBool('teach') ?? false;
+  if (userType == false) {
     return null; // User
   } else {
     return 'teacher'; // Teacher

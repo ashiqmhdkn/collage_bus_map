@@ -7,14 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocationController extends GetxController {
   Rx<LocationData?> locationData = Rx<LocationData?>(null);
   bool isCurrentUserAdmin = false;
-   RxBool teacher = RxBool(false);
-    void toggleTeacher() {
+  RxBool teacher = RxBool(false);
+  void toggleTeacher() {
     teacher.value = !teacher.value; // Update the value
   }
+
   // Firebase collection reference
   final CollectionReference _locationCollection =
       FirebaseFirestore.instance.collection('locations');
-   
 
   @override
   void onInit() async {
@@ -23,7 +23,7 @@ class LocationController extends GetxController {
   }
 
   Future<void> fetchLocationData() async {
-    if (teacher==true) {
+    if (teacher == true) {
       // Fetch current location only for admin user
       await _fetchCurrentLocation();
     } else {
@@ -67,7 +67,10 @@ class LocationController extends GetxController {
         };
 
         // Add the location data to Firebase
-        await _locationCollection.add(locationMap);
+        //  await _locationCollection.add(locationMap);
+        await _locationCollection
+            .doc("busLocation")
+            .set(locationMap, SetOptions(merge: true));
       } catch (e) {
         print('Error adding location to Firebase: $e');
       }
@@ -77,7 +80,6 @@ class LocationController extends GetxController {
   Future<void> _fetchLocationDataFromFirebase() async {
     try {
       QuerySnapshot snapshot = await _locationCollection.get();
-
     } catch (e) {
       print('Error retrieving location data from Firebase: $e');
     }

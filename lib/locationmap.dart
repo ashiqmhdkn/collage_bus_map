@@ -125,7 +125,7 @@ class _LocationMapState extends State<LocationMap> {
           markerId: MarkerId("college"),
           position: collegeLat,
         ),
-        if (   widget.locationData !=
+        if (widget.locationData !=
             null) // This is how you might start to use locationData
           Marker(
             markerId: MarkerId("currentLocation"),

@@ -5,13 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class update_parent extends StatelessWidget {
-    User user;
-  update_parent( this.user);
+  User user;
+  update_parent(this.user);
   TextEditingController pname = TextEditingController();
   TextEditingController pAdmissionNo = TextEditingController();
   TextEditingController pAddress = TextEditingController();
   TextEditingController pPhone = TextEditingController();
   TextEditingController pDob = TextEditingController();
+
   Future<void> addDbparent(
       {String? name,
       String? Adress,
@@ -31,6 +32,11 @@ class update_parent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    pname.text = user.name ?? '';
+    pAdmissionNo.text = user.admissionNo ?? '';
+    pAddress.text = user.address ?? '';
+    pPhone.text = user.phone ?? '';
+    pDob.text = user.password ?? '';
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -40,10 +46,10 @@ class update_parent extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: ListView(
             children: [
-              TextField(
+              TextFormField(
                 controller: pname,
                 decoration: InputDecoration(
-                  hintText: user.name??'',
+                  //  hintText: user.name ?? '',
                   label: Text('Name'),
                   border: OutlineInputBorder(),
                 ),
@@ -51,11 +57,11 @@ class update_parent extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              TextField(
+              TextFormField(
                 controller: pAdmissionNo,
                 decoration: InputDecoration(
-                hintText: user.admissionNo??'',
-                label: Text('Admission No'),
+                  // hintText: user.admissionNo ?? '',
+                  label: Text('Admission No'),
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
@@ -63,10 +69,10 @@ class update_parent extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              TextField(
+              TextFormField(
                 controller: pPhone,
                 decoration: InputDecoration(
-                  hintText:user.phone??'',
+                  //  hintText: user.phone ?? '',
                   label: Text('Phone'),
                   border: OutlineInputBorder(),
                 ),
@@ -78,11 +84,11 @@ class update_parent extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              TextField(
+              TextFormField(
                 controller: pAddress,
                 decoration: InputDecoration(
-              hintText:user.address??'',
-              label: Text('location'),
+                  //  hintText: user.address ?? '',
+                  label: Text('location'),
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.text,
@@ -90,11 +96,11 @@ class update_parent extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              TextField(
+              TextFormField(
                 controller: pDob,
                 decoration: InputDecoration(
-                 hintText:user.password??'',
-                 label: Text('Password'),
+                  //  hintText: user.password ?? '',
+                  label: Text('Password'),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -105,8 +111,8 @@ class update_parent extends StatelessWidget {
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all(
                     EdgeInsets.only(
-                      left: 150,
-                      right: 150,
+                      left: 15,
+                      right: 15,
                       top: 10,
                       bottom: 10,
                     ),
@@ -136,6 +142,7 @@ class update_parent extends StatelessWidget {
     );
   }
 }
+
 class add_parent extends StatelessWidget {
   add_parent({super.key});
   TextEditingController pname = TextEditingController();
@@ -263,4 +270,3 @@ class add_parent extends StatelessWidget {
     );
   }
 }
-

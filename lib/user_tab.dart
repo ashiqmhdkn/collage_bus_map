@@ -1,5 +1,4 @@
 import 'package:collage_bus_nufa/home.dart';
-import 'package:collage_bus_nufa/payment_message.dart';
 import 'package:collage_bus_nufa/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

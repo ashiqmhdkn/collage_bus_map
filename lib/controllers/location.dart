@@ -1,13 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LocationController extends GetxController {
   Rx<LocationData?> locationData = Rx<LocationData?>(null);
   bool isCurrentUserAdmin = false;
   RxBool teacher = RxBool(false);
+  BitmapDescriptor? markerIconNew;
   void toggleTeacher() {
     teacher.value = !teacher.value; // Update the value
   }
@@ -17,9 +18,14 @@ class LocationController extends GetxController {
       FirebaseFirestore.instance.collection('locations');
 
   @override
-  void onInit() async {
+  void onInit() {
+    fetch();
 // Set to true for admin user, false for regular user
     super.onInit();
+  }
+
+  fetch() async {
+    markerIconNew = await loadMarkerIcon();
   }
 
   Future<void> fetchLocationData() async {
@@ -45,6 +51,7 @@ class LocationController extends GetxController {
     if (permissionGranted == PermissionStatus.denied) {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
+        locationData.value = await location.getLocation();
         return null;
       }
     }
@@ -80,8 +87,23 @@ class LocationController extends GetxController {
   Future<void> _fetchLocationDataFromFirebase() async {
     try {
       QuerySnapshot snapshot = await _locationCollection.get();
+      for (var doc in snapshot.docs) {
+        print(doc.data());
+
+        locationData.value =
+            LocationData.fromMap(doc.data() as Map<String, dynamic>);
+      }
+      print('fetching loc');
     } catch (e) {
       print('Error retrieving location data from Firebase: $e');
     }
+  }
+
+  Future<BitmapDescriptor> loadMarkerIcon() async {
+    BitmapDescriptor _markerIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(48, 48)),
+      'assets\images\loginpic.jpg',
+    );
+    return _markerIcon;
   }
 }

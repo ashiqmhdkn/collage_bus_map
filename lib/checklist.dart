@@ -1,5 +1,4 @@
 import 'package:collage_bus_nufa/bottom.dart';
-import 'package:collage_bus_nufa/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -21,13 +20,13 @@ class _ChecklistState extends State<Checklist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:PreferredSize(
+      appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: AnimatedSwitcher(
           duration: Duration(milliseconds: 300),
           child: _isSearching ? _buildSearchAppBar() : _buildRegularAppBar(),
         ),
-      ), 
+      ),
       body: Obx(() {
         // Use Obx here to listen to changes in UserController
         if (userController.isLoading.isTrue) {
@@ -57,6 +56,7 @@ class _ChecklistState extends State<Checklist> {
       }),
     );
   }
+
   AppBar _buildRegularAppBar() {
     return AppBar(
       title: Text('CheckList'),
@@ -101,5 +101,3 @@ class _ChecklistState extends State<Checklist> {
     );
   }
 }
-
-

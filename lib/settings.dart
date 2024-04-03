@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:collage_bus_nufa/parent.dart';
 import 'package:collage_bus_nufa/updateusers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'login.dart';
-import 'feedback_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';

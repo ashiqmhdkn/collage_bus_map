@@ -1,8 +1,5 @@
-import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:collage_bus_nufa/updateusers.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'controllers/usercontrol.dart';
 
@@ -59,7 +56,8 @@ class parentState extends State<parent> {
                             icon: Icon(Icons.delete)),
                         IconButton(
                             onPressed: () {
-                              Get.to(update_parent(userController.users[index]));
+                              Get.to(
+                                  update_parent(userController.users[index]));
                             },
                             icon: Icon(Icons.edit)),
                       ],

@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:collage_bus_nufa/admin_tab.dart';
 import 'package:collage_bus_nufa/controllers/authController.dart';
+import 'package:collage_bus_nufa/controllers/location.dart';
 import 'package:collage_bus_nufa/controllers/usercontrol.dart';
 import 'package:collage_bus_nufa/controllers/table_countroller.dart';
 import 'package:collage_bus_nufa/user_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flash.dart';
 import 'login.dart';
@@ -13,14 +15,18 @@ import 'apar.dart'; // Ensure this is the correct import
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure plugins are initialized
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ).then((value) {
+  ).then((value) async {
     Get.put(authController());
     Get.put(UserController());
     Get.put(TableController());
+    Get.put(LocationController());
+    
   });
   runApp(MyApp());
 }
@@ -59,20 +65,19 @@ class _InitialScreenState extends State<InitialScreen> {
     final UserController usercController = UserController();
     bool isLogin = sp.getBool('log') ?? false;
     bool admin = sp.getBool('adm') ?? false;
-    bool teach =sp.getBool('teach')??false;
-  
+    bool teach = sp.getBool('teach') ?? false;
+
     // Delay added to simulate loading time for Flash screen
     await Future.delayed(const Duration(seconds: 1));
 
     if (isLogin) {
       if (admin) {
         Get.offAll(() => admin_tab());
+      } else if (teach) {
+        Get.offAll(apar());
+      } else {
+        Get.offAll(user_tab());
       }
-     else if(teach){ Get.offAll(apar());}
-      else{
-Get.offAll(user_tab());
-      }
-      
     } else {
       Get.offAll(Login());
     }

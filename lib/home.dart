@@ -2,7 +2,6 @@ import 'package:collage_bus_nufa/controllers/location.dart';
 import 'package:collage_bus_nufa/controllers/messagecon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'locationmap.dart';
 import 'message_page.dart';
@@ -14,7 +13,6 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LocationController locationController = Get.put(LocationController());
-      
 
     return SafeArea(
       child: Scaffold(
@@ -30,7 +28,7 @@ class Home extends StatelessWidget {
                 children: [
                   Expanded(
                       flex: 10,
-                      child: Obx(()  {
+                      child: Obx(() {
                         LocationData? locationData =
                             locationController.locationData.value;
 
@@ -38,10 +36,15 @@ class Home extends StatelessWidget {
                           // Access locationData's properties here
                           double latitude = 10.902752012224196;
                           double longitude = 76.12170400178304;
-                          
+                          locationData = LocationData.fromMap({
+                            latitude: latitude,
+                            longitude: longitude
+                          } as Map<String, dynamic>);
                         }
-                
-                        return LocationMap(locationData: locationData,);
+
+                        return LocationMap(
+                          locationData: locationData,
+                        );
                       })),
                   bottomWidget(),
                 ],
@@ -53,8 +56,6 @@ class Home extends StatelessWidget {
     );
   }
 }
-
-
 
 Widget bottomWidget() {
   final FeedbackController msg = Get.put(FeedbackController());

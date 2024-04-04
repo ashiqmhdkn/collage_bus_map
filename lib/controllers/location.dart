@@ -10,7 +10,8 @@ class LocationController extends GetxController {
   RxBool teacher = RxBool(false);
   BitmapDescriptor? markerIconNew;
   void toggleTeacher() {
-    teacher.value = !teacher.value; // Update the value
+    teacher.value = !teacher.value;
+    fetchLocationData(); // Update the value
   }
 
   // Firebase collection reference
@@ -19,13 +20,8 @@ class LocationController extends GetxController {
 
   @override
   void onInit() {
-    fetch();
 // Set to true for admin user, false for regular user
     super.onInit();
-  }
-
-  fetch() async {
-    markerIconNew = await loadMarkerIcon();
   }
 
   Future<void> fetchLocationData() async {

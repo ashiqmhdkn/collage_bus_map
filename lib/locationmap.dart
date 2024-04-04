@@ -148,10 +148,8 @@ class _LocationMapState extends State<LocationMap> {
             markerId: MarkerId("currentLocation"),
             position: LatLng(widget.locationData!.latitude!,
                 widget.locationData!.longitude!),
-            icon: locationController.markerIconNew == null
-                ? BitmapDescriptor.defaultMarkerWithHue(
-                    BitmapDescriptor.hueBlue)
-                : locationController.markerIconNew!),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueBlue)),
       },
     );
   }

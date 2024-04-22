@@ -141,9 +141,11 @@ class Login extends StatelessWidget {
     );
   }
 
-  Future<void> _handleLogin() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    bool userFound = false;
+Future<void> _handleLogin() async {
+  SharedPreferences sp = await SharedPreferences.getInstance();
+  bool userFound = false;
+  
+  try {
     for (var user in usersc.allUsers) {
       if (user.name == _userId.text && user.password == _password.text) {
         sp.setString("Id", _userId.text);
@@ -159,11 +161,17 @@ class Login extends StatelessWidget {
         } else {
           Get.offAll(user_tab());
         }
+        userFound = true;
+        break; // No need to continue looping once user is found
       }
     }
-    if (!userFound) {
-      GetSnackBar(message: "Invalid username or password");
-      print("not availablein db username or password");
-    }
+  } catch (e) {
+    print('Error during login: $e');
+  }
+  
+  if (!userFound) {
+    GetSnackBar(message: "Invalid username or password");
+    print("Invalid username or password");
+  }
   }
 }

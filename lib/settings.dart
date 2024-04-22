@@ -1,4 +1,3 @@
-
 import 'package:collage_bus_nufa/controllers/models/user.dart';
 import 'package:collage_bus_nufa/parent.dart';
 import 'package:collage_bus_nufa/updateusers.dart';
@@ -11,7 +10,7 @@ import 'dart:io';
 
 class Settings extends StatefulWidget {
   final bool showEditProfile;
-  const Settings({Key? key, this.showEditProfile = true}) : super(key: key);
+  const Settings({Key? key, required this.showEditProfile}) : super(key: key);
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -74,18 +73,21 @@ class _SettingsState extends State<Settings> {
                     onPressed: _pickImage,
                   ),
           ),
-          if (widget.showEditProfile)
-            ListTile(
-              leading: Icon(Icons.edit),
-              title: Text("Edit Profile"),
-              trailing: Icon(Icons.arrow_forward_ios),
-              onTap: () async {
-                SharedPreferences sp = await SharedPreferences.getInstance();
-                String? usernam = sp.getString("Id");
-                User? std = await userController.getUserByName(usernam ?? '');
-                Get.to(update_parent(std!));
-              },
-            ),
+          widget.showEditProfile
+              ? ListTile(
+                  leading: Icon(Icons.edit),
+                  title: Text("Edit Profile"),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () async {
+                    SharedPreferences sp =
+                        await SharedPreferences.getInstance();
+                    String? usernam = sp.getString("Id");
+                    User? std =
+                        await userController.getUserByName(usernam ?? '');
+                    Get.to(update_parent(std!));
+                  },
+                )
+              : SizedBox.shrink(),
           ListTile(
             leading: Icon(Icons.feed),
             title: Text("Privacy Policy"),

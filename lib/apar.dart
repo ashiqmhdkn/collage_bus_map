@@ -1,4 +1,3 @@
-
 import 'package:collage_bus_nufa/checklist.dart';
 import 'package:collage_bus_nufa/payment.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,7 @@ import 'settings.dart';
 import 'home.dart';
 
 class apar extends StatefulWidget {
-  const apar({super.key});
+  apar({super.key,});
 
   @override
   State<apar> createState() => _aparState();
@@ -35,7 +34,6 @@ class _aparState extends State<apar> {
               icon: Icon(Icons.account_circle_sharp),
               label: "Profile",
             ),
-             
           ],
           selectedIndex: currentPageIndex,
           onDestinationSelected: (int index) {
@@ -49,7 +47,7 @@ class _aparState extends State<apar> {
           Home(),
           Checklist(),
           payment(),
-          Settings(),
+          Settings(showEditProfile: false),
         ][currentPageIndex],
       ),
     );

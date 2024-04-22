@@ -13,7 +13,7 @@ class Login extends StatelessWidget {
 
   TextEditingController _password = TextEditingController();
   UserController usersc = Get.put(UserController());
-  RxBool showpassword = true.obs;
+  RxBool showpassword = false.obs;
 
   @override
   Widget build(BuildContext context) {

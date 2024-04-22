@@ -1,4 +1,3 @@
-
 import 'package:collage_bus_nufa/admin_tab.dart';
 import 'package:collage_bus_nufa/controllers/authController.dart';
 import 'package:collage_bus_nufa/controllers/location.dart';
@@ -14,8 +13,6 @@ import 'apar.dart'; // Ensure this is the correct import
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure plugins are initialized
   await Firebase.initializeApp(
@@ -25,7 +22,6 @@ void main() async {
     Get.put(UserController());
     Get.put(TableController());
     Get.put(LocationController());
-    
   });
   runApp(MyApp());
 }
@@ -65,6 +61,7 @@ class _InitialScreenState extends State<InitialScreen> {
     bool isLogin = sp.getBool('log') ?? false;
     bool admin = sp.getBool('adm') ?? false;
     bool teach = sp.getBool('teach') ?? false;
+    
 
     // Delay added to simulate loading time for Flash screen
     await Future.delayed(const Duration(seconds: 1));

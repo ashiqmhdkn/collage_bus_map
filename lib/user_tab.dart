@@ -40,7 +40,7 @@ class user_tab extends StatelessWidget {
           return IndexedStack(
             index: currentPageIndex.value,
             children: [
-              Settings(),
+              Settings(showEditProfile: true),
               Home(),
             ],
           );

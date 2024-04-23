@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:collage_bus_nufa/admin_tab.dart';
 import 'package:collage_bus_nufa/controllers/usercontrol.dart';
 import 'package:collage_bus_nufa/user_tab.dart';
@@ -170,7 +171,11 @@ Future<void> _handleLogin() async {
   }
   
   if (!userFound) {
-    GetSnackBar(message: "Invalid username or password");
+   Get.snackbar(
+  "Error",
+  "Invalid username or password",
+  snackPosition: SnackPosition.BOTTOM, // Set the position of the snackbar
+);
     print("Invalid username or password");
   }
   }
